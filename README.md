@@ -1,4 +1,4 @@
 shipmate
 ========
 
-A web application similar to testflight for private hosting and distribution of mobile apps for testing.
+A web application similar to TestFlight for private hosting and distribution of mobile apps for testing. 
