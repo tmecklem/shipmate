@@ -39,6 +39,8 @@ GEM
     coffee-script-source (1.7.0)
     erubis (2.7.0)
     execjs (2.0.2)
+    haml (4.0.3)
+      tilt
     hike (1.2.3)
     i18n (0.6.1)
     journey (1.0.4)
@@ -77,6 +79,7 @@ GEM
     rake (10.1.1)
     rdoc (3.12.2)
       json (~> 1.4)
+    rubyzip (0.9.9)
     sass (3.2.14)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -103,8 +106,10 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  haml
   jquery-rails
   rails (= 3.2.13)
+  rubyzip
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
