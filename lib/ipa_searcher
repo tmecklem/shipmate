@@ -1,0 +1,13 @@
+
+
+class IPASearcher
+
+  def initialize(dir)
+    @dir = dir
+  end
+
+  def file_list
+    Dir.entries(dir).reject { |entry| !entry.upcase.end_with?('IPA') }
+  end
+
+end
