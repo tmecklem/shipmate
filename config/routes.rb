@@ -1,4 +1,6 @@
 Shipmate::Application.routes.draw do
+  get "app_listing/index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
