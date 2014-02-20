@@ -20,7 +20,7 @@ class AppsController < ApplicationController
   end
 
   def file_list(dir)
-    Dir.entries(dir).reject { |entry| !entry.upcase.end_with?('IPA') }
+    Dir.glob("#{dir}/**/*").reject { |entry| !entry.upcase.end_with?('IPA') }
   end
 
   def app_plists(app_name)
