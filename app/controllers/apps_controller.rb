@@ -2,8 +2,7 @@ class AppsController < ApplicationController
   def list
     dir = Rails.root.join('public','apps')
     FileUtils.mkdir_p(dir)
-    #@list = file_list(dir)
-    @list = Dir.glob("#{dir}/**/*/")
+    @list = Dir.entries(dir).reject { |entry| entry.starts_with?('.') }
   end
 
   def show_versions
@@ -28,12 +27,17 @@ class AppsController < ApplicationController
     plists = file_list(dir).collect do |ipa_file|
       plist_info(dir.join(ipa_file))
     end
+    plists.compact
   end
 
   def plist_info(ipa_file)
     ipa_info = nil
-    IPA::IPAFile.open(ipa_file) do |ipa| 
-      ipa_info = ipa.info
+    begin
+      IPA::IPAFile.open(ipa_file) do |ipa| 
+        ipa_info = ipa.info
+      end
+    rescue Zip::ZipError
+
     end
     ipa_info
   end
