@@ -36,9 +36,10 @@ gem 'haml-rails'
 gem 'ipa'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0.0.beta'
-  gem 'guard-rspec', require: false
+  gem 'rspec-rails', '~> 2.14.1'
+  gem 'guard-rspec'
   gem 'guard-rails'
+  gem 'terminal-notifier-guard'
 end
 
 # Use ActiveModel has_secure_password

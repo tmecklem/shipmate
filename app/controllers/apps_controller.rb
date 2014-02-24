@@ -1,10 +1,15 @@
 class AppsController < ApplicationController
+
+  attr_accessor :apps_dir
+
+  def initialize
+    @apps_dir = Rails.root.join('public','apps')
+    FileUtils.mkdir_p(@apps_dir)
+    super
+  end
+
   def list
-    dir = Rails.root.join('public','apps')
-    FileUtils.mkdir_p(dir)
-    #@list = Dir.entries(dir).reject { |entry| entry.starts_with?('.') }
-    root_dir = Rails.root.join('public','apps')
-    @list = app_names(root_dir)
+    @list = app_names(@apps_dir)
   end
 
   def show_versions
@@ -32,8 +37,7 @@ class AppsController < ApplicationController
   end
 
   def app_plists(app_name)
-    root_dir = Rails.root.join('public','apps')
-    all_plists(root_dir).select do |plist|
+    all_plists(@apps_dir).select do |plist|
       app_name.eql?(plist["CFBundleDisplayName"])
     end
   end
