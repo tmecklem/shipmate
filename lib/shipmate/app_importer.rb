@@ -12,7 +12,12 @@ module Shipmate
     end
 
     def import_app(ipa_file)
-
+      plist_hash = parse_ipa_plist(ipa_file)
+      app_name = plist_hash["CFBundleDisplayName"]
+      app_version = plist_hash["CFBundleVersion"]
+      create_app_directory(app_name, app_version)
+      move_ipa_file(ipa_file, app_name, app_version)
+      write_plist_info(plist_hash, app_name, app_version)
     end
 
     def parse_ipa_plist(ipa_file)

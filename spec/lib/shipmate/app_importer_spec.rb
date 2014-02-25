@@ -38,8 +38,13 @@ describe Shipmate::AppImporter do
 
       let(:import_ipa_file) { import_dir.join("iCare360Pad-12.ipa") }
 
-      it 'takes the location of an ipa file' do
+      it 'takes the location of an ipa file and... does the import' do
         importer.import_app(import_ipa_file)
+
+        expect(File.directory?(apps_dir.join("Care360 HD","2014.1.0.12"))).to be true
+        expect(File.file?(apps_dir.join("Care360 HD","2014.1.0.12", "Care360 HD-2014.1.0.12.ipa"))).to be true
+        file_contents = File.open(apps_dir.join("Care360 HD","2014.1.0.12","info.yaml"), "rb").read
+        expect(file_contents).to include("CFBundleIdentifier: com.medplus.iCare360Pad")      
       end
 
     end
@@ -80,7 +85,6 @@ describe Shipmate::AppImporter do
 
       it 'writes a yaml of the given hash to the app directory' do
         FileUtils.mkdir_p(apps_dir.join("Care360 HD","2014.1.0.12"))
-        
         sample_plist = {"CFBundleName"=>"iCare360Pad"}
         importer.write_plist_info(sample_plist, "Care360 HD","2014.1.0.12")
         file_contents = File.open(apps_dir.join("Care360 HD","2014.1.0.12","info.yaml"), "rb").read
