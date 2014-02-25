@@ -2,10 +2,19 @@ require 'spec_helper'
 require 'shipmate/app_importer'
 
 describe Shipmate::AppImporter do
-  
-  let(:import_dir) { Rails.root.join('public','import') }
-  let(:apps_dir) { Rails.root.join('public','apps') }
+    
+  let(:import_dir) { @tmp_root.join('public','import') }
+  let(:apps_dir) { @tmp_root.join('public','apps') }
   let(:importer) { Shipmate::AppImporter.new(import_dir, apps_dir) }
+
+  before(:all) do
+    @tmp_root = Pathname.new('/tmp/importer')
+    FileUtils.mkdir_p(@tmp_root)
+  end
+
+  after(:all) do
+    FileUtils.rm_rf(@tmp_root)
+  end
 
   describe '#initialize' do
 
@@ -13,8 +22,16 @@ describe Shipmate::AppImporter do
       expect(importer.import_dir).to be import_dir
     end    
 
-    it 'stores the apps folder as a property' do
-      expect(importer.apps_dir).to be apps_dir
+    it 'makes sure the import directory exists' do
+      expect(File.directory?(importer.import_dir)).to be true
+    end
+
+    it 'stores the import folder as a property' do
+      expect(importer.import_dir).to be import_dir
+    end
+
+    it 'makes sure the apps directory exists' do
+      expect(File.directory?(importer.apps_dir)).to be true
     end
 
   end

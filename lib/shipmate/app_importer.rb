@@ -9,6 +9,9 @@ module Shipmate
     def initialize(import_dir, apps_dir)
       @import_dir = import_dir
       @apps_dir = apps_dir
+
+      FileUtils.mkdir_p(@import_dir)
+      FileUtils.mkdir_p(@apps_dir)
     end
 
     def import_app(ipa_file)
