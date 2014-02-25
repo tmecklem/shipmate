@@ -9,8 +9,8 @@ module Shipmate
     attr_reader :import_dir, :apps_dir
 
     def initialize(import_dir, apps_dir)
-      @import_dir = import_dir.is_a?(Pathname) && import_dir || Pathname.new(import_dir)
-      @apps_dir = apps_dir.is_a?(Pathname) && apps_dir || Pathname.new(apps_dir)
+      @import_dir = Pathname.new(import_dir)
+      @apps_dir = Pathname.new(apps_dir)
 
       FileUtils.mkdir_p(@import_dir)
       FileUtils.mkdir_p(@apps_dir)
