@@ -1,4 +1,6 @@
 require 'yaml'
+require 'ipa'
+require 'pathname'
 
 module Shipmate
 
@@ -7,11 +9,22 @@ module Shipmate
     attr_reader :import_dir, :apps_dir
 
     def initialize(import_dir, apps_dir)
-      @import_dir = import_dir
-      @apps_dir = apps_dir
+      @import_dir = import_dir.is_a?(Pathname) && import_dir || Pathname.new(import_dir)
+      @apps_dir = apps_dir.is_a?(Pathname) && apps_dir || Pathname.new(apps_dir)
 
       FileUtils.mkdir_p(@import_dir)
       FileUtils.mkdir_p(@apps_dir)
+    end
+
+    def import_apps
+      ipa_files = Dir.glob("#{@import_dir}/**/*").reject { |entry| !entry.upcase.end_with?('IPA') }
+      ipa_files.each do |ipa_file|
+        begin
+          import_app ipa_file
+        rescue
+          puts "Unable to import #{ipa_file}"
+        end
+      end
     end
 
     def import_app(ipa_file)
