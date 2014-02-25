@@ -1,4 +1,4 @@
-
+require 'yaml'
 
 module Shipmate
 
@@ -28,7 +28,15 @@ module Shipmate
     end
 
     def create_app_directory(app_name, app_version)
+      FileUtils.mkdir_p(@apps_dir.join(app_name,app_version))
+    end
 
+    def move_ipa_file(ipa_file, app_name, app_version)
+      FileUtils.mv(ipa_file, @apps_dir.join(app_name,app_version,"#{app_name}-#{app_version}.ipa"))
+    end
+
+    def write_plist_info(plist_hash, app_name, app_version)
+      File.open(@apps_dir.join(app_name,app_version,'info.yaml'), 'w') {|f| f.write plist_hash.to_yaml }
     end
 
   end
