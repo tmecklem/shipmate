@@ -1,6 +1,7 @@
 require 'yaml'
 require 'ipa'
 require 'pathname'
+require 'digest'
 
 module Shipmate
 
@@ -32,6 +33,7 @@ module Shipmate
       app_name = plist_hash["CFBundleDisplayName"]
       app_version = plist_hash["CFBundleVersion"]
       create_app_directory(app_name, app_version)
+      touch_digest_file(calculate_digest(ipa_file), app_name, app_version)
       move_ipa_file(ipa_file, app_name, app_version)
       write_plist_info(plist_hash, app_name, app_version)
     end
@@ -58,6 +60,14 @@ module Shipmate
 
     def write_plist_info(plist_hash, app_name, app_version)
       File.open(@apps_dir.join(app_name,app_version,'info.yaml'), 'w') {|f| f.write plist_hash.to_yaml }
+    end
+
+    def touch_digest_file(digest, app_name, app_version)
+      FileUtils.touch(@apps_dir.join(app_name,app_version,"#{digest}.sha1"))
+    end
+
+    def calculate_digest(ipa_file)
+      Digest::SHA1.hexdigest( File.read(ipa_file) )
     end
 
   end

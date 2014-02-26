@@ -3,18 +3,10 @@ require 'shipmate/app_importer'
 
 describe Shipmate::AppImporter do
     
-  let(:import_dir) { @tmp_root.join('public','import') }
-  let(:apps_dir) { @tmp_root.join('public','apps') }
+  let(:tmp_root) { Pathname.new('/tmp/importer') }
+  let(:import_dir) { tmp_root.join('public','import') }
+  let(:apps_dir) { tmp_root.join('public','apps') }
   let(:importer) { Shipmate::AppImporter.new(import_dir.to_s, apps_dir.to_s) }
-
-  before(:all) do
-    @tmp_root = Pathname.new('/tmp/importer')
-    FileUtils.mkdir_p(@tmp_root)
-  end
-
-  after(:all) do
-    FileUtils.rm_rf(@tmp_root)
-  end
 
   describe '#initialize' do
 
@@ -61,7 +53,8 @@ describe Shipmate::AppImporter do
         expect(File.directory?(apps_dir.join("Go Tomato","1.0.27"))).to be true
         expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Go Tomato-1.0.27.ipa"))).to be true
         file_contents = File.open(apps_dir.join("Go Tomato","1.0.27","info.yaml"), "rb").read
-        expect(file_contents).to include("CFBundleIdentifier: com.mecklem.Go-Tomato")      
+        expect(file_contents).to include("CFBundleIdentifier: com.mecklem.Go-Tomato")     
+        expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "45a5a4862ebcc0b80a3f5e1a60649734eebca18a.sha1"))).to be true      
       end
 
     end
@@ -106,6 +99,15 @@ describe Shipmate::AppImporter do
         importer.write_plist_info(sample_plist, "Go Tomato","1.0.27")
         file_contents = File.open(apps_dir.join("Go Tomato","1.0.27","info.yaml"), "rb").read
         expect(file_contents).to include("CFBundleName: iCare360Pad")
+      end
+
+    end
+
+    describe '#calculate_digest' do
+
+      it 'calculates a sha1 digest of the ipa file' do
+        sha1 = importer.calculate_digest(import_ipa_file)
+        expect(sha1).to eq "45a5a4862ebcc0b80a3f5e1a60649734eebca18a"
       end
 
     end
