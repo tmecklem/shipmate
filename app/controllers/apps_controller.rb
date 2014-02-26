@@ -9,7 +9,7 @@ class AppsController < ApplicationController
   end
 
   def list
-    @list = app_names(@apps_dir)
+    @app_names = Dir.entries(@apps_dir).select { |entry| File.directory?(File.join(@apps_dir, entry)) and not entry.eql?('.') and not entry.eql?('..')}
   end
 
   def show_versions

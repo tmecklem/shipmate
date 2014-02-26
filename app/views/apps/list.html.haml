@@ -1,2 +1,2 @@
-- @list.each do |ipa_file|
-  %p=link_to(ipa_file.split(File::SEPARATOR).last, show_app_versions_path(ipa_file))
+- @app_names.each do |app_name|
+  %p=link_to(app_name, show_app_versions_path(app_name))
