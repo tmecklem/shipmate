@@ -2,6 +2,7 @@ require 'yaml'
 require 'ipa'
 require 'pathname'
 require 'digest'
+require 'plist'
 
 module Shipmate
 
@@ -34,8 +35,9 @@ module Shipmate
       app_version = plist_hash["CFBundleVersion"]
       create_app_directory(app_name, app_version)
       touch_digest_file(calculate_digest(ipa_file), app_name, app_version)
+      extract_icon_to_file(ipa_file, app_name, app_version)
       move_ipa_file(ipa_file, app_name, app_version)
-      write_plist_info(plist_hash, app_name, app_version)
+      write_manifest_to_file(extract_manifest(plist_hash), app_name, app_version)
     end
 
     def parse_ipa_plist(ipa_file)
@@ -58,10 +60,6 @@ module Shipmate
       FileUtils.mv(ipa_file, @apps_dir.join(app_name,app_version,"#{app_name}-#{app_version}.ipa"))
     end
 
-    def write_plist_info(plist_hash, app_name, app_version)
-      File.open(@apps_dir.join(app_name,app_version,'info.yaml'), 'w') {|f| f.write plist_hash.to_yaml }
-    end
-
     def touch_digest_file(digest, app_name, app_version)
       FileUtils.touch(@apps_dir.join(app_name,app_version,"#{digest}.sha1"))
     end
@@ -80,6 +78,26 @@ module Shipmate
       rescue Zip::ZipError
 
       end
+    end
+
+    def extract_manifest(info_plist_hash)
+      manifest = {}
+      assets = [{'kind'=>'software-package', 'url'=>'__URL__'}]
+      metadata = {}
+      metadata["bundle-identifier"] = info_plist_hash["CFBundleIdentifier"]
+      metadata["bundle-version"] = info_plist_hash["CFBundleVersion"]
+      metadata["kind"] = "software"
+      metadata["title"] = "#{info_plist_hash['CFBundleDisplayName']} #{info_plist_hash['CFBundleVersion']}"
+      metadata["subtitle"] = "#{info_plist_hash['CFBundleDisplayName']} #{info_plist_hash['CFBundleVersion']}"
+
+      items = [{"assets"=>assets, "metadata"=>metadata}]
+      manifest["items"] = items
+
+      manifest
+    end
+
+    def write_manifest_to_file(manifest_hash, app_name, app_version)
+      File.open(@apps_dir.join(app_name,app_version,'manifest.plist'), 'wb') {|f| f.write manifest_hash.to_plist }
     end
 
   end
