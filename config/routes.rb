@@ -2,13 +2,13 @@ Shipmate::Application.routes.draw do
 
   get "apps" => 'apps#index'  
   get "apps/:app_name" => 'apps#list_app_releases', as: :list_app_releases
-  get "apps/:app_name/:app_release" => 'apps#list_app_builds', as: :list_app_builds
+  get "apps/:app_name/:app_release" => 'apps#list_app_builds', :constraints => { :app_release => /[^\/]+/ }, as: :list_app_builds
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'apps#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
