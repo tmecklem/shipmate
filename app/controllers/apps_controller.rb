@@ -8,57 +8,37 @@ class AppsController < ApplicationController
     super
   end
 
-  def list
-    @app_names = Dir.entries(@apps_dir).select { |entry| File.directory?(File.join(@apps_dir, entry)) and not entry.eql?('.') and not entry.eql?('..')}
+  def index
+    @app_names = subdirectories(@apps_dir).sort
   end
 
-  def show_versions
-    app_name = params[:app_name]
-    plists = app_plists(app_name)
+  def list_app_releases
+    @app_name = params[:app_name]
+    app_dir = @apps_dir.join(@app_name)
+    app_builds = subdirectories(app_dir)
+    
+    app_builds.map! do |app_build|
+      app_build.split('.')[0...-1].join('.')
+    end
+    app_builds.uniq!
+    @app_releases = VersionSorter.sort(app_builds)
 
-    all_versions = plists.collect do |plist| 
-      version_parts = plist["CFBundleVersion"].split('.')
-      version_parts[0...-1].join('.')
+  end
+
+  def list_app_builds
+    @app_name = params[:app_name]
+    app_dir = @apps_dir.join(@app_name)
+    app_builds = subdirectories(app_dir)
+
+    app_builds.select! do |app_build|
+      app_build.split('.')[0...-1].join('.').eql?(params[:app_release])
     end
 
-    @versions = all_versions.uniq
-
+    @release_builds = VersionSorter.sort(app_builds)
   end
 
-  def file_list(dir)
-    Dir.glob("#{dir}/**/*").reject { |entry| !entry.upcase.end_with?('IPA') }
-  end
-
-  def app_names(root_dir)
-    everything = all_plists(root_dir).collect do |plist|
-      plist["CFBundleDisplayName"]
-    end
-    everything.uniq
-  end
-
-  def app_plists(app_name)
-    all_plists(@apps_dir).select do |plist|
-      app_name.eql?(plist["CFBundleDisplayName"])
-    end
-  end
-
-  def all_plists(root_dir)
-    plists = file_list(root_dir).collect do |ipa_file|
-      plist_info(root_dir.join(ipa_file))
-    end
-    plists.compact
-  end
-
-  def plist_info(ipa_file)
-    ipa_info = nil
-    begin
-      IPA::IPAFile.open(ipa_file) do |ipa| 
-        ipa_info = ipa.info
-      end
-    rescue Zip::ZipError
-
-    end
-    ipa_info
+  def subdirectories(dir)
+    Dir.entries(dir).select { |entry| File.directory?(File.join(dir, entry)) and not entry.eql?('.') and not entry.eql?('..') }
   end
 
 

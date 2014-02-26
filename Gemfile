@@ -34,6 +34,7 @@ end
 
 gem 'haml-rails'
 gem 'ipa'
+gem 'version_sorter'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.14.1'

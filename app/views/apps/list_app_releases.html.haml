@@ -1,0 +1,2 @@
+- @app_releases.each do |app_release|
+  %p=link_to(app_release, list_app_builds_path(@app_name, app_release))

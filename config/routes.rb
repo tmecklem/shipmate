@@ -1,6 +1,8 @@
 Shipmate::Application.routes.draw do
-  get "apps/list"
-  get "apps/:app_name/show_versions" => 'apps#show_versions', as: :show_app_versions
+
+  get "apps" => 'apps#index'  
+  get "apps/:app_name" => 'apps#list_app_releases', as: :list_app_releases
+  get "apps/:app_name/:app_release" => 'apps#list_app_builds', as: :list_app_builds
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

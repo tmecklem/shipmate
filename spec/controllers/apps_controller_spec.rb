@@ -13,7 +13,7 @@ describe AppsController do
 
   end
 
-  describe 'GET #list' do
+  describe 'GET #index' do
 
     before (:each) do
       FileUtils.mkdir_p(apps_dir.join('Chocolate'))
@@ -26,28 +26,84 @@ describe AppsController do
     end
 
     it 'returns a 200' do
-      get :list
+      get :index
       expect(response).to be_success
       expect(response.status).to eq(200)
     end
 
-    it "renders the list template" do
-      get :list
-      expect(response).to render_template("list")
+    it "renders the index template" do
+      get :index
+      expect(response).to render_template("index")
     end
 
     it 'creates a list of the apps_dir top level folders' do
-      get :list
+      get :index
       expect(assigns[:app_names]).to include('Chocolate')
       expect(assigns[:app_names]).to include('Monkeybread')
     end
 
     it 'does not include . or .. in app names listing' do
-      get :list
+      get :index
       expect(assigns[:app_names]).to_not include('.')
       expect(assigns[:app_names]).to_not include('..')
     end
   
+  end
+
+  describe 'GET #list_app_releases' do
+    before (:each) do
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.4.0'))
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.4.10'))
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.6.0'))
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.2.0'))
+    end
+
+    after(:each) do
+      FileUtils.rm_r(apps_dir.join('Chocolate'))
+    end
+
+    it 'returns a 200' do
+      get :list_app_releases, :app_name => 'Chocolate'
+      expect(response).to be_success
+      expect(response.status).to eq(200)
+    end
+
+    it 'creates a list of sorted app releases' do
+      get :list_app_releases, :app_name => 'Chocolate'
+      expect(assigns[:app_releases]).to eq ['1.2.2', '1.2.4', '1.2.6']
+    end
+
+  end
+
+  describe 'GET #list_app_builds' do
+    before (:each) do
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.0.14'))
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.0.12'))
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.0.1'))
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.3.goofy'))
+      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.0.2'))
+    end
+
+    after(:each) do
+      FileUtils.rm_r(apps_dir.join('Chocolate'))
+    end
+
+    it 'returns a 200' do
+      get :list_app_builds, :app_name => 'Chocolate', :app_release => '1.2.0'
+      expect(response).to be_success
+      expect(response.status).to eq(200)
+    end
+
+    it 'assembles a sorted list of builds within a release' do
+      get :list_app_builds, :app_name => 'Chocolate', :app_release => '1.2.0'
+      expect(assigns[:release_builds]).to eq ['1.2.0.1','1.2.0.2','1.2.0.12','1.2.0.14']
+    end
+
+    it 'assings the app_name' do
+      get :list_app_builds, :app_name => 'Chocolate', :app_release => '1.2.0'
+      expect(assigns[:app_name]).to eq 'Chocolate'
+    end
+
   end
 
 end
