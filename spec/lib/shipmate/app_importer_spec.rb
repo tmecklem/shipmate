@@ -39,8 +39,8 @@ describe Shipmate::AppImporter do
     end
 
     after(:each) do
-      #FileUtils.rm(import_ipa_file) if File.file?(import_ipa_file)
-      #FileUtils.rm_rf(apps_dir.join("Go Tomato"))
+      FileUtils.rm(import_ipa_file) if File.file?(import_ipa_file)
+      FileUtils.rm_rf(apps_dir.join("Go Tomato"))
     end
 
     describe '#import_app' do
@@ -100,7 +100,7 @@ describe Shipmate::AppImporter do
 
     end
 
-    describe '#extract_icon_to_file' do
+    describe '#extract_icon_to_file' do 
 
       it 'extracts a representative app icon from the ipa' do
         FileUtils.mkdir_p(apps_dir.join("Go Tomato","1.0.27"))

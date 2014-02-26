@@ -23,8 +23,8 @@ module Shipmate
       ipa_files.each do |ipa_file|
         begin
           import_app ipa_file
-        rescue
-          puts "Unable to import #{ipa_file}"
+        rescue StandardError => e
+          puts "Unable to import #{ipa_file}: #{e}"
         end
       end
     end
@@ -46,8 +46,8 @@ module Shipmate
         IPA::IPAFile.open(ipa_file) do |ipa| 
           ipa_info = ipa.info
         end
-      rescue Zip::ZipError
-
+      rescue Zip::ZipError => e
+        puts e
       end
       ipa_info
     end
@@ -73,7 +73,10 @@ module Shipmate
       icon_destination = @apps_dir.join(app_name,app_version,"Icon.png")
       begin
         IPA::IPAFile.open(ipa_file) do |ipa| 
-          File.open(icon_destination, 'wb') {|f| f.write ipa.icon }
+          proc_that_returns_icon_data = ipa.icons["Icon.png"] || ipa.icons["Icon@2x.png"] || ipa.icons.values[0]
+          File.open(icon_destination, 'wb') do
+            |f| f.write proc_that_returns_icon_data.call()
+          end
         end
       rescue Zip::ZipError
 
