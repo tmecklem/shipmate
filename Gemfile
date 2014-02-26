@@ -32,9 +32,9 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'haml-rails'
-gem 'ipa'
-gem 'version_sorter'
+gem 'haml-rails', '~> 0.5.3'
+gem 'ipa', '~> 0.1.3'
+gem 'version_sorter', '~> 1.1.0'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.14.1'
