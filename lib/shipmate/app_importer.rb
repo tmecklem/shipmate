@@ -70,6 +70,18 @@ module Shipmate
       Digest::SHA1.hexdigest( File.read(ipa_file) )
     end
 
+    def extract_icon_to_file(ipa_file, app_name, app_version)
+
+      icon_destination = @apps_dir.join(app_name,app_version,"Icon.png")
+      begin
+        IPA::IPAFile.open(ipa_file) do |ipa| 
+          File.open(icon_destination, 'wb') {|f| f.write ipa.icon }
+        end
+      rescue Zip::ZipError
+
+      end
+    end
+
   end
 
 end

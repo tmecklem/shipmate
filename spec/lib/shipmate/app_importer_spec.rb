@@ -112,6 +112,16 @@ describe Shipmate::AppImporter do
 
     end
 
+    describe '#extract_icon' do
+
+      it 'extracts a representative app icon from the ipa' do
+        FileUtils.mkdir_p(apps_dir.join("Go Tomato","1.0.27"))
+        importer.extract_icon_to_file(import_ipa_file,"Go Tomato","1.0.27")
+        expect(Digest::SHA1.hexdigest( File.read(apps_dir.join("Go Tomato","1.0.27", "Icon.png")) )).to eq "1a7e6897814006c1001b4bf60d6e2a05a99e3cac"
+      end
+
+    end
+
   end
 
 end
