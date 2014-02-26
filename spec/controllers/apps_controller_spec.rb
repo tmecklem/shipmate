@@ -68,9 +68,9 @@ describe AppsController do
       expect(response.status).to eq(200)
     end
 
-    it 'creates a list of sorted app releases' do
+    it 'creates a list of reverse release sorted app releases' do
       get :list_app_releases, :app_name => 'Chocolate'
-      expect(assigns[:app_releases]).to eq ['1.2.2', '1.2.4', '1.2.6']
+      expect(assigns[:app_releases]).to eq ['1.2.6', '1.2.4', '1.2.2']
     end
 
   end
@@ -94,12 +94,12 @@ describe AppsController do
       expect(response.status).to eq(200)
     end
 
-    it 'assembles a sorted list of builds within a release' do
+    it 'assembles a reverse version sorted list of builds within a release' do
       get :list_app_builds, :app_name => 'Chocolate', :app_release => '1.2.0'
-      expect(assigns[:release_builds]).to eq ['1.2.0.1','1.2.0.2','1.2.0.12','1.2.0.14']
+      expect(assigns[:release_builds]).to eq ['1.2.0.14','1.2.0.12','1.2.0.2','1.2.0.1']
     end
 
-    it 'assings the app_name' do
+    it 'assigns the app_name' do
       get :list_app_builds, :app_name => 'Chocolate', :app_release => '1.2.0'
       expect(assigns[:app_name]).to eq 'Chocolate'
     end

@@ -21,7 +21,7 @@ class AppsController < ApplicationController
       app_build.split('.')[0...-1].join('.')
     end
     app_builds.uniq!
-    @app_releases = VersionSorter.sort(app_builds)
+    @app_releases = VersionSorter.rsort(app_builds)
 
   end
 
@@ -34,7 +34,7 @@ class AppsController < ApplicationController
       app_build.split('.')[0...-1].join('.').eql?(params[:app_release])
     end
 
-    @release_builds = VersionSorter.sort(app_builds)
+    @release_builds = VersionSorter.rsort(app_builds)
   end
 
   def subdirectories(dir)
