@@ -49,7 +49,7 @@ class AppsController < ApplicationController
     plist_hash["items"][0]["assets"][0]['url'] = "#{request.base_url}/public/apps/#{@app_name}/#{build_version}/#{@app_name}-#{build_version}.ipa"
     
     respond_to do |format|
-      format.plist { render :text => plist_hash.to_plist_xml }
+      format.plist { render :text => plist_hash.to_plist(plist_format: CFPropertyList::List::FORMAT_XML) }
     end
   end
 
