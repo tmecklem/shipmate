@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'plist'
 
 describe AppsController do
 
@@ -102,6 +103,35 @@ describe AppsController do
     it 'assigns the app_name' do
       get :list_app_builds, :app_name => 'Chocolate', :app_release => '1.2.0'
       expect(assigns[:app_name]).to eq 'Chocolate'
+    end
+
+  end
+
+  describe 'GET #show_build_manifest' do
+
+    before(:each) do
+      request.env["HTTP_ACCEPT"] = 'application/x-plist'
+      FileUtils.mkdir_p(apps_dir.join('Go Tomato','1.0.27'))
+      FileUtils.cp(Rails.root.join('spec','lib','shipmate','fixtures','Go-Tomato-Ad-Hoc-27.ipa'), apps_dir.join('Go Tomato','1.0.27','Go Tomato-1.0.27.ipa'))
+    end
+
+    after(:each) do
+      FileUtils.rm_rf(apps_dir.join('Go Tomato'))
+    end
+
+    it 'returns a 200' do
+      get :show_build_manifest, :app_name => 'Go Tomato', :build_version => '1.0.27'
+      expect(response).to be_success
+      expect(response.status).to eq(200)
+    end
+
+    it 'returns a plist file' do 
+      get :show_build_manifest, :app_name => 'Go Tomato', :build_version => '1.0.27'
+      expect(response.body).to include("Go Tomato")
+      expect(response.body).to include("1.0.27")
+      expect(response.body).to include("software")
+      expect(response.body).to include("url")
+      puts response.body
     end
 
   end

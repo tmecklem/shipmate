@@ -4,6 +4,8 @@ Shipmate::Application.routes.draw do
   get "apps/:app_name" => 'apps#list_app_releases', as: :list_app_releases
   get "apps/:app_name/:app_release" => 'apps#list_app_builds', :constraints => { :app_release => /[^\/]+/ }, as: :list_app_builds
 
+  get "apps/:app_name/:build_version/manifest" => 'apps#show_build_manifest', :constraints => { :build_version => /[^\/]+/ }, as: :show_build_manifest
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
