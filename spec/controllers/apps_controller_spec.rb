@@ -125,6 +125,11 @@ describe AppsController do
       expect(response.status).to eq(200)
     end
 
+    it 'set @app_name' do
+      get :show_build_manifest, :app_name => 'Go Tomato', :build_version => '1.0.27'
+      expect(assigns[:app_name]).to eq 'Go Tomato'
+    end
+
     it 'returns a plist file' do 
       get :show_build_manifest, :app_name => 'Go Tomato', :build_version => '1.0.27'
       expect(response.body).to include("Go Tomato")

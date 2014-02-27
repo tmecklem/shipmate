@@ -1,2 +1,5 @@
 - @release_builds.each do |release_build|
-  %p=release_build
+  %p=link_to(release_build, show_build_manifest_path(@app_name, release_build, :format => :plist))
+
+
+    

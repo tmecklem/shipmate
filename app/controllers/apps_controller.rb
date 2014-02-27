@@ -42,12 +42,12 @@ class AppsController < ApplicationController
 
   def show_build_manifest
     expires_now
-    app_name = params[:app_name]
+    @app_name = params[:app_name]
     build_version = params[:build_version]
-    ipa_file = @apps_dir.join(app_name,build_version,"#{app_name}-#{build_version}.ipa")
+    ipa_file = @apps_dir.join(@app_name,build_version,"#{@app_name}-#{build_version}.ipa")
     ipa_parser = Shipmate::IpaParser.new(ipa_file)
     plist_hash = ipa_parser.extract_manifest(ipa_parser.parse_plist)
-    plist_hash["items"][0]["assets"][0]['url'] = "#{request.base_url}/public/apps/#{app_name}/#{build_version}/#{app_name}-#{build_version}.ipa"
+    plist_hash["items"][0]["assets"][0]['url'] = "#{request.base_url}/public/apps/#{@app_name}/#{build_version}/#{@app_name}-#{build_version}.ipa"
     
     respond_to do |format|
       format.plist { render :text => plist_hash.to_plist }
