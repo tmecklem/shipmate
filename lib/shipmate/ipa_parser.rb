@@ -37,7 +37,7 @@ module Shipmate
 
     def extract_manifest(info_plist_hash)
       manifest = {}
-      assets = [{'kind'=>'software-package', 'url'=>'__URL__'}]
+      assets = [{'kind'=>'software-package', 'url'=>'__URL__'},{'kind'=>'display-image','needs-shine'=>false,'url'=>'__URL__'}]
       metadata = {}
       metadata["bundle-identifier"] = info_plist_hash["CFBundleIdentifier"]
       metadata["bundle-version"] = info_plist_hash["CFBundleVersion"]
