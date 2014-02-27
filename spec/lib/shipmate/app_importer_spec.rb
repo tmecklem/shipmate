@@ -54,20 +54,6 @@ describe Shipmate::AppImporter do
         expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Go Tomato-1.0.27.ipa"))).to be true   
         expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "45a5a4862ebcc0b80a3f5e1a60649734eebca18a.sha1"))).to be true 
         expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Icon.png"))).to be true 
-        expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "manifest.plist"))).to be true 
-      end
-
-    end
-
-    describe '#parse_ipa_plist' do
-
-      it 'returns a hash of important information from the ipa\'s info.plist file' do
-        plist = importer.parse_ipa_plist(import_ipa_file)
-        expect(plist["CFBundleDisplayName"]).to eq("Go Tomato")
-        expect(plist["CFBundleName"]).to eq("Go Tomato")
-        expect(plist["CFBundleIdentifier"]).to eq("com.mecklem.Go-Tomato")
-        expect(plist["CFBundleVersion"]).to eq("1.0.27")
-
       end
 
     end
@@ -96,36 +82,6 @@ describe Shipmate::AppImporter do
       it 'calculates a sha1 digest of the ipa file' do
         sha1 = importer.calculate_digest(import_ipa_file)
         expect(sha1).to eq "45a5a4862ebcc0b80a3f5e1a60649734eebca18a"
-      end
-
-    end
-
-    describe '#extract_icon_to_file' do 
-
-      it 'extracts a representative app icon from the ipa' do
-        FileUtils.mkdir_p(apps_dir.join("Go Tomato","1.0.27"))
-        importer.extract_icon_to_file(import_ipa_file,"Go Tomato","1.0.27")
-        expect(Digest::SHA1.hexdigest( File.read(apps_dir.join("Go Tomato","1.0.27", "Icon.png")) )).to eq "1a7e6897814006c1001b4bf60d6e2a05a99e3cac"
-      end
-
-    end
-
-    describe '#extract_manifest' do
-
-      it 'returns a hash containing the manifest.plist content from info in the ipa' do
-        info_plist_hash = {"CFBundleIdentifier"=>"com.mecklem.Go-Tomato", "CFBundleName"=>"Go Tomato", "CFBundleDisplayName"=>"Go Tomato", "CFBundleVersion"=>"1.0.27"}
-        expected_manifest_plist_hash = {'items' => [ {'assets' => [ {'kind' => 'software-package', 'url' => '__URL__'} ], 'metadata' => {'bundle-identifier'=>'com.mecklem.Go-Tomato', 'bundle-version'=>'1.0.27', 'kind'=>'software', 'title'=>'Go Tomato 1.0.27', 'subtitle'=>'Go Tomato 1.0.27'} } ]}
-        expect(importer.extract_manifest(info_plist_hash)).to eq expected_manifest_plist_hash
-      end
-
-    end
-
-    describe '#write_manifest_to_file' do
-
-      it 'saves the manifest hash to a manifest.plist in the apps folder for the given ipa' do
-        FileUtils.mkdir_p(apps_dir.join("Go Tomato","1.0.27"))
-        test_hash = {'items' => [ {'assets' => [ {'kind' => 'software-package', 'url' => '__URL__'} ], 'metadata' => {'bundle-identifier'=>'com.mecklem.Go-Tomato', 'bundle-version'=>'1.0.27', 'kind'=>'software', 'title'=>'Go Tomato 1.0.27', 'subtitle'=>'Go Tomato 1.0.27'} } ]}
-        importer.write_manifest_to_file(test_hash, "Go Tomato", "1.0.27")
       end
 
     end

@@ -2,7 +2,7 @@ require 'yaml'
 require 'ipa'
 require 'pathname'
 require 'digest'
-require 'plist'
+require 'shipmate/ipa_parser'
 
 module Shipmate
 
@@ -30,26 +30,14 @@ module Shipmate
     end
 
     def import_app(ipa_file)
-      plist_hash = parse_ipa_plist(ipa_file)
+      ipa_parser = Shipmate::IpaParser.new(ipa_file)
+      plist_hash = ipa_parser.parse_plist
       app_name = plist_hash["CFBundleDisplayName"]
       app_version = plist_hash["CFBundleVersion"]
       create_app_directory(app_name, app_version)
       touch_digest_file(calculate_digest(ipa_file), app_name, app_version)
-      extract_icon_to_file(ipa_file, app_name, app_version)
+      ipa_parser.extract_icon_to_file(ipa_file, @apps_dir.join(app_name,app_version,"Icon.png"))
       move_ipa_file(ipa_file, app_name, app_version)
-      write_manifest_to_file(extract_manifest(plist_hash), app_name, app_version)
-    end
-
-    def parse_ipa_plist(ipa_file)
-      ipa_info = nil
-      begin
-        IPA::IPAFile.open(ipa_file) do |ipa| 
-          ipa_info = ipa.info
-        end
-      rescue Zip::ZipError => e
-        puts e
-      end
-      ipa_info
     end
 
     def create_app_directory(app_name, app_version)
@@ -66,41 +54,6 @@ module Shipmate
 
     def calculate_digest(ipa_file)
       Digest::SHA1.hexdigest( File.read(ipa_file) )
-    end
-
-    def extract_icon_to_file(ipa_file, app_name, app_version)
-
-      icon_destination = @apps_dir.join(app_name,app_version,"Icon.png")
-      begin
-        IPA::IPAFile.open(ipa_file) do |ipa| 
-          proc_that_returns_icon_data = ipa.icons["Icon.png"] || ipa.icons["Icon@2x.png"] || ipa.icons.values[0]
-          File.open(icon_destination, 'wb') do
-            |f| f.write proc_that_returns_icon_data.call()
-          end
-        end
-      rescue Zip::ZipError
-
-      end
-    end
-
-    def extract_manifest(info_plist_hash)
-      manifest = {}
-      assets = [{'kind'=>'software-package', 'url'=>'__URL__'}]
-      metadata = {}
-      metadata["bundle-identifier"] = info_plist_hash["CFBundleIdentifier"]
-      metadata["bundle-version"] = info_plist_hash["CFBundleVersion"]
-      metadata["kind"] = "software"
-      metadata["title"] = "#{info_plist_hash['CFBundleDisplayName']} #{info_plist_hash['CFBundleVersion']}"
-      metadata["subtitle"] = "#{info_plist_hash['CFBundleDisplayName']} #{info_plist_hash['CFBundleVersion']}"
-
-      items = [{"assets"=>assets, "metadata"=>metadata}]
-      manifest["items"] = items
-
-      manifest
-    end
-
-    def write_manifest_to_file(manifest_hash, app_name, app_version)
-      File.open(@apps_dir.join(app_name,app_version,'manifest.plist'), 'wb') {|f| f.write manifest_hash.to_plist }
     end
 
   end
