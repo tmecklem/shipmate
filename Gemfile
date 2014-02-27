@@ -43,6 +43,8 @@ group :development, :test do
   gem 'terminal-notifier-guard'
 end
 
+gem 'thin'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
