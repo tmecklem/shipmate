@@ -1,5 +1,6 @@
 - @release_builds.each do |release_build|
-  %p=link_to(release_build, show_build_manifest_path(@app_name, release_build, :format => :plist))
+  %p
+    %a{:href => "itms-services://?action=download-manifest&url=#{show_build_manifest_url(@app_name, release_build, :format => :plist)}"}=release_build
 
 
     

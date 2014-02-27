@@ -34,7 +34,7 @@ end
 
 gem 'haml-rails', '~> 0.5.3'
 gem 'ipa', :git => 'git://github.com/sjmulder/ipa'
-gem 'plist', '~> 3.1.0'
+gem 'nokogiri-plist', '~> 0.5.0'
 gem 'version_sorter', '~> 1.1.0'
 
 group :development, :test do

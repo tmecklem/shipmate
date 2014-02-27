@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'plist'
 
 describe AppsController do
 
@@ -136,7 +135,6 @@ describe AppsController do
       expect(response.body).to include("1.0.27")
       expect(response.body).to include("software")
       expect(response.body).to include("url")
-      puts response.body
     end
 
   end
