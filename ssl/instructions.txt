@@ -1,0 +1,26 @@
+1. Generate Key, CSR, then crt. Make sure the FQDN matches the hostname of the computer, or mobile safari will reject it even if you trust the cert at a system level
+
+------
+
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -out server.csr
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+------
+
+2. copy the crt to the public folder
+
+------
+
+cp server.crt ../public/
+
+------
+
+
+3. start thin from the root directory of shipmate using 
+
+------
+
+thin start -p 3001 --ssl --ssl-key-file ssl/server.key --ssl-cert-file ssl/server.crt
+
+------
