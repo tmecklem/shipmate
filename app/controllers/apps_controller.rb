@@ -8,7 +8,7 @@ class AppsController < ApplicationController
   attr_accessor :apps_dir
 
   def initialize
-    @apps_dir = Rails.root.join('public','apps')
+    @apps_dir = Shipmate::Application.config.apps_dir || Rails.root.join('public','apps')
     FileUtils.mkdir_p(@apps_dir)
     super
   end
