@@ -44,6 +44,7 @@ group :development, :test do
 end
 
 gem 'thin'
+gem 'whenever', '~> 0.9.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
