@@ -1,4 +1,5 @@
 require 'shipmate/ipa_parser'
+require 'browser'
 
 class AppsController < ApplicationController
 
@@ -6,6 +7,12 @@ class AppsController < ApplicationController
   ICON_ASSET_INDEX = 1
 
   attr_accessor :apps_dir
+
+  before_action do
+    @device_type = "iPhone" if browser.iphone? or browser.ipod?
+    @device_type = "iPad" if browser.ipad? 
+    @device_type ||= "Desktop"
+  end
 
   def initialize
     @apps_dir = Shipmate::Application.config.apps_dir || Rails.root.join('public','apps')

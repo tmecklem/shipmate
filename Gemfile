@@ -32,9 +32,9 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'haml-rails', '~> 0.5.3'
-gem 'ipa', :git => 'git://github.com/sjmulder/ipa'
-gem 'version_sorter', '~> 1.1.0'
+gem 'haml-rails', '~> 0.5.3' 
+gem 'ipa', :git => 'git://github.com/sjmulder/ipa' #ipa and plist parsing support
+gem 'version_sorter', '~> 1.1.0' #gem to help sort version numbers (when dictionary sort fails)
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.14.1'
@@ -43,8 +43,9 @@ group :development, :test do
   gem 'terminal-notifier-guard'
 end
 
-gem 'thin'
-gem 'whenever', '~> 0.9.0'
+gem 'thin' #development ssl support
+gem 'whenever', '~> 0.9.0' #cron
+gem 'browser', '~> 0.4.0' #device family detection
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

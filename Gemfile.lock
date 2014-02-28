@@ -36,6 +36,7 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.2)
     atomic (1.1.14)
+    browser (0.4.0)
     builder (3.1.4)
     celluloid (0.15.2)
       timers (~> 1.1.0)
@@ -190,6 +191,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  browser (~> 0.4.0)
   coffee-rails (~> 4.0.0)
   guard-rails
   guard-rspec
