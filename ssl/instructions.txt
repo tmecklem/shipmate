@@ -1,26 +1,28 @@
-1. Generate Key, CSR, then crt. Make sure the FQDN matches the hostname of the computer, or mobile safari will reject it even if you trust the cert at a system level
+If you want to test this with iOS 7.1+ apps, you need to front the rails server with an ssl proxy.
 
-------
+Here's a sample nginx server config section
 
-openssl genrsa -out server.key 2048
-openssl req -new -key server.key -out server.csr
-openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+    server {
+        listen 443;
+        ssl on;
+        server_name localhost; 
 
-------
+        #path to your certificate
+        ssl_certificate /usr/local/etc/nginx/ssl/server.crt; 
+        # path to your ssl key
+        ssl_certificate_key /usr/local/etc/nginx/ssl/server.key; 
 
-2. copy the crt to the public folder
+        # put the rest of your server configuration here.
 
-------
+        root         /dev/null;
 
-cp server.crt ../public/
-
-------
-
-
-3. start thin from the root directory of shipmate using 
-
-------
-
-thin start -p 3001 --ssl --ssl-key-file ssl/server.key --ssl-cert-file ssl/server.crt
-
-------
+        location / {
+            # set X-FORWARDED_PROTO so ssl_requirement plugin works
+            proxy_set_header X-FORWARDED_PROTO https;
+            proxy_set_header  X-Real-IP        $remote_addr;
+            proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;
+            proxy_set_header  Host             $http_host;
+            proxy_redirect    off;
+            proxy_pass        http://localhost:3000;
+        }
+    }
