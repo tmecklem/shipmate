@@ -1,2 +1,8 @@
-- @app_releases.each do |app_release|
-  %p=link_to(app_release, list_app_builds_path(@app_name, app_release))
+%div{:"data-role" => 'page'}
+  %div{:"data-role" => 'header'}
+  %div{:"data-role" => 'content'}
+    - @app_releases.each do |app_release|
+      %p=link_to(app_release, list_app_builds_path(@app_name, app_release), :class => "ui-btn ui-btn-icon-right ui-icon-carat-r")
+  %div{:"data-role" => 'footer'}
+
+

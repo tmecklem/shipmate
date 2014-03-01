@@ -1,6 +1,14 @@
-- @release_builds.each do |release_build|
-  %p
-    %a{:href => "itms-services://?action=download-manifest&url=#{CGI.escape(show_build_manifest_url(@app_name, release_build, :format => :plist))}"}=release_build
+%div{:"data-role" => 'page'}
+  %div{:"data-role" => 'header'}
+  %div{:"data-role" => 'content'}
+    - @release_builds.each do |release_build|
+      %p
+        %a.ui-btn.ui-btn-icon-right.ui-icon-carat-r{:href => "itms-services://?action=download-manifest&url=#{CGI.escape(show_build_manifest_url(@app_name, release_build, :format => :plist))}"}=release_build
+  %div{:"data-role" => 'footer'}
+
+
+
+
 
 
     
