@@ -39,11 +39,12 @@ class AppsController < ApplicationController
 
   def list_app_builds
     @app_name = params[:app_name]
+    @app_release = params[:app_release]
     app_dir = @apps_dir.join(@app_name)
     app_builds = subdirectories(app_dir)
 
     app_builds.select! do |app_build|
-      app_build.split('.')[0...-1].join('.').eql?(params[:app_release])
+      app_build.split('.')[0...-1].join('.').eql?(@app_release)
     end
 
     @release_builds = VersionSorter.rsort(app_builds)

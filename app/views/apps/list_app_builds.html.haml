@@ -1,5 +1,6 @@
 %div{:"data-role" => 'page'}
-  %div{:"data-role" => 'header'}
+  %div{:"data-role" => 'header', :"data-add-back-btn"=>'true'}
+    %h1=@app_release
   %div{:"data-role" => 'content'}
     - @release_builds.each do |release_build|
       %p

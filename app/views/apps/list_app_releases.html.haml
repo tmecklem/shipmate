@@ -1,5 +1,6 @@
 %div{:"data-role" => 'page'}
-  %div{:"data-role" => 'header'}
+  %div{:"data-role" => 'header', :"data-add-back-btn"=>'true'}
+    %h1=@app_name
   %div{:"data-role" => 'content'}
     - @app_releases.each do |app_release|
       %p=link_to(app_release, list_app_builds_path(@app_name, app_release), :class => "ui-btn ui-btn-icon-right ui-icon-carat-r")
