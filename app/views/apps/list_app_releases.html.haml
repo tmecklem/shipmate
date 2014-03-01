@@ -3,7 +3,12 @@
     %h1=@app_name
   %div{:"data-role" => 'content'}
     - @app_releases.each do |app_release|
-      %p=link_to(app_release, list_app_builds_path(@app_name, app_release), :class => "ui-btn ui-btn-icon-right ui-icon-carat-r")
+      .ui-corner-all.custom-corners
+        .ui-bar.ui-bar-b="Release #{app_release}"
+        .ui-body.ui-body-a
+          %button.ui-btn.ui-btn-icon-right.ui-icon-carat-r{:href => "latest_build_url"}="Install 2014.2.1.0342"
+          =link_to("More Builds", list_app_builds_path(@app_name, app_release), :class => "ui-btn ui-btn-icon-right ui-icon-carat-r")
+      %p
   %div{:"data-role" => 'footer'}
 
 
