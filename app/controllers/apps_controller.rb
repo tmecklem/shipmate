@@ -28,12 +28,9 @@ class AppsController < ApplicationController
     @app_name = params[:app_name]
     app_dir = @apps_dir.join(@app_name)
     app_builds = subdirectories(app_dir)
-    
-    app_builds.map! do |app_build|
-      app_build.split('.')[0...-1].join('.')
-    end
-    app_builds.uniq!
-    @app_releases = VersionSorter.rsort(app_builds)
+
+    @most_recent_build_hash = most_recent_build_by_release(app_builds)
+    @app_releases = VersionSorter.rsort(@most_recent_build_hash.keys)
 
   end
 
@@ -44,10 +41,22 @@ class AppsController < ApplicationController
     app_builds = subdirectories(app_dir)
 
     app_builds.select! do |app_build|
-      app_build.split('.')[0...-1].join('.').eql?(@app_release)
+      release_for_build(app_build).eql?(@app_release)
     end
 
     @release_builds = VersionSorter.rsort(app_builds)
+  end
+
+  def most_recent_build_by_release(app_builds)
+    most_recent_builds_hash = {}
+    VersionSorter.rsort(app_builds).each do |app_build|
+      most_recent_builds_hash[release_for_build(app_build)] ||= app_build
+    end
+    most_recent_builds_hash
+  end
+
+  def release_for_build(app_build)
+    app_build.split('.')[0...-1].join('.')
   end
 
   def show_build_manifest

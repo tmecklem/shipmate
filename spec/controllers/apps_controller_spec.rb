@@ -101,6 +101,11 @@ describe AppsController do
       expect(assigns[:app_releases]).to eq ['1.2.6', '1.2.4', '1.2.2']
     end
 
+    it 'creates a hash of releases as keys and the most recent builds as values' do
+      get :list_app_releases, :app_name => 'Chocolate'
+      expect(assigns[:most_recent_build_hash]).to eq({'1.2.6'=>'1.2.6.0', '1.2.4'=>'1.2.4.10', '1.2.2'=>'1.2.2.0'})
+    end
+
   end
 
   describe 'GET #list_app_builds' do

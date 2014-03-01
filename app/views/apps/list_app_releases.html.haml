@@ -3,11 +3,10 @@
     %h1=@app_name
   %div{:"data-role" => 'content'}
     - @app_releases.each do |app_release|
-      .ui-corner-all.custom-corners
-        .ui-bar.ui-bar-b="Release #{app_release}"
-        .ui-body.ui-body-a
-          %button.ui-btn.ui-btn-icon-right.ui-icon-carat-r{:href => "latest_build_url"}="Install 2014.2.1.0342"
-          =link_to("More Builds", list_app_builds_path(@app_name, app_release), :class => "ui-btn ui-btn-icon-right ui-icon-carat-r")
+      %div{:"data-role"=>"collapsible"}
+        %h2="Release #{app_release}"
+        %a.ui-btn.ui-btn-b.ui-btn-icon-right.ui-icon-carat-r{:href => "itms-services://?action=download-manifest&url=#{CGI.escape(show_build_manifest_url(@app_name, @most_recent_build_hash[app_release], :format => :plist))}"}="Install #{@most_recent_build_hash[app_release]}"
+        =link_to("More Builds", list_app_builds_path(@app_name, app_release), :class => "ui-btn ui-mini ui-btn-icon-right ui-icon-carat-r")
       %p
   %div{:"data-role" => 'footer'}
 
