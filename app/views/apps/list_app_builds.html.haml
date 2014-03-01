@@ -6,6 +6,7 @@
       %p
         %a.ui-btn.ui-btn-icon-right.ui-icon-carat-r{:href => "itms-services://?action=download-manifest&url=#{CGI.escape(show_build_manifest_url(@app_name, release_build, :format => :plist))}"}=release_build
   %div{:"data-role" => 'footer'}
+    %h2=link_to('Home',root_path, :class=>"ui-btn")
 
 
 
