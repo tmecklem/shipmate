@@ -1,4 +1,4 @@
-[![Code Climate](https://codeclimate.com/github/tmecklem/shipmate.png)](https://codeclimate.com/github/tmecklem/shipmate)
+[![Code Climate](https://codeclimate.com/github/tmecklem/shipmate.png)](https://codeclimate.com/github/tmecklem/shipmate) [![Build Status](https://travis-ci.org/tmecklem/shipmate.png?branch=develop)](https://travis-ci.org/tmecklem/shipmate)
 
 Shipmate is a tool to provide dedicated developers and QA professionals access to over the air installation for iOS and Android alpha and beta apps. It is similar to TestFlight, but with less group and access ceremony, and similar to a HockeyKit standalone installation with the exception that it's built on Rails and aims to provide a bit more functionality.
 
