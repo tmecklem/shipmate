@@ -46,14 +46,4 @@ describe Shipmate::IpaParser do
 
   end
 
-  describe '#extract_manifest' do
-
-    it 'returns a hash containing the manifest.plist content from info in the ipa' do
-      info_plist_hash = {"CFBundleIdentifier"=>"com.mecklem.Go-Tomato", "CFBundleName"=>"Go Tomato", "CFBundleDisplayName"=>"Go Tomato", "CFBundleVersion"=>"1.0.27"}
-      expected_manifest_plist_hash = {'items' => [ {'assets' => [ {'kind' => 'software-package', 'url' => '__URL__'}, {'kind'=>'display-image', 'needs-shine'=>false, 'url'=>'__URL__'} ], 'metadata' => {'bundle-identifier'=>'com.mecklem.Go-Tomato', 'bundle-version'=>'1.0.27', 'kind'=>'software', 'title'=>'Go Tomato 1.0.27', 'subtitle'=>'Go Tomato 1.0.27'} } ]}
-      expect(ipa_parser.extract_manifest(info_plist_hash)).to eq expected_manifest_plist_hash
-    end
-
-  end
-
 end
