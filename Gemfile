@@ -41,6 +41,11 @@ group :development, :test do
   gem 'terminal-notifier-guard'
 end
 
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+end
+
 gem 'whenever', '~> 0.9.0' #cron
 gem 'browser', '~> 0.4.0' #device family detection
 

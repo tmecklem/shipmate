@@ -91,7 +91,7 @@ class AppBuild
   def version_parts
     self.build_version.split('.').map do |version_part|
       if version_part.to_i.to_s == version_part
-        version_part.to_i
+        version_part.to_i.to_s.rjust(10,'0')
       else
         version_part
       end
