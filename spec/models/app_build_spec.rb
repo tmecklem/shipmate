@@ -51,4 +51,29 @@ describe AppBuild do
     end
   end
 
+  describe '#ipa_checksum' do
+    it 'returns a sha1 hash of the ipa file' do
+      expect(app_build.ipa_checksum).to eq "45a5a4862ebcc0b80a3f5e1a60649734eebca18a"
+    end
+  end
+
+  describe '#manifest_plist_hash' do
+    it 'returns a Hash containing the proper structure and values for an iOS OTA manifest' do
+      expected_manifest_plist_hash = {'items' => [ {'assets' => [ {'kind' => 'software-package', 'url' => '__URL__'}, {'kind'=>'display-image', 'needs-shine'=>false, 'url'=>'__URL__'} ], 'metadata' => {'bundle-identifier'=>'com.mecklem.Go-Tomato', 'bundle-version'=>'1.0.27', 'kind'=>'software', 'title'=>'Go Tomato 1.0.27', 'subtitle'=>'Go Tomato 1.0.27'} } ]}
+      expect(app_build.manifest_plist_hash).to eq expected_manifest_plist_hash
+    end
+  end
+
+  describe '#info_plist_hash' do
+    it 'returns a hash of the ipa\'s info.plist file' do
+      plist = app_build.info_plist_hash
+      expect(plist["CFBundleDisplayName"]).to eq("Go Tomato")
+      expect(plist["CFBundleName"]).to eq("Go Tomato")
+      expect(plist["CFBundleIdentifier"]).to eq("com.mecklem.Go-Tomato")
+      expect(plist["CFBundleVersion"]).to eq("1.0.27")
+
+    end
+
+  end
+
 end
