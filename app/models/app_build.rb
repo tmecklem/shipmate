@@ -40,6 +40,10 @@ class AppBuild
       Digest::SHA1.hexdigest( File.read(ipa_file_path) )
   end
 
+  def release
+    @build_version.split('.')[0...-1].join('.')
+  end
+
   def info_plist_hash
     ipa_info = nil
     begin

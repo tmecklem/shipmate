@@ -82,6 +82,12 @@ describe AppBuild do
     end
   end
 
+  describe '#release' do
+    it 'returns the release based on the build_version' do
+      expect(app_build.release).to eq "1.0"
+    end
+  end
+
   describe '#ipa_checksum' do
     it 'returns a sha1 hash of the ipa file' do
       expect(app_build.ipa_checksum).to eq "45a5a4862ebcc0b80a3f5e1a60649734eebca18a"
