@@ -26,8 +26,7 @@ class AppsController < ApplicationController
 
   def list_app_releases
     @app_name = params[:app_name]
-    app_dir = @apps_dir.join(@app_name)
-    app_builds = subdirectories(app_dir)
+    app_builds = self.app_builds(@app_name)
 
     @most_recent_build_hash = most_recent_build_by_release(app_builds)
     @app_releases = VersionSorter.rsort(@most_recent_build_hash.keys)
@@ -37,26 +36,26 @@ class AppsController < ApplicationController
   def list_app_builds
     @app_name = params[:app_name]
     @app_release = params[:app_release]
-    app_dir = @apps_dir.join(@app_name)
-    app_builds = subdirectories(app_dir)
 
-    app_builds.select! do |app_build|
-      release_for_build(app_build).eql?(@app_release)
+    @app_builds = self.app_builds(@app_name).select do |app_build|
+      app_build.release.eql?(@app_release)
     end
+  end
 
-    @release_builds = VersionSorter.rsort(app_builds)
+  def app_builds(app_name)
+    app_dir = @apps_dir.join(app_name)
+    app_builds = subdirectories(app_dir).map do |build_version|
+      AppBuild.new(@apps_dir, app_name, build_version)
+    end
+    app_builds.sort.reverse
   end
 
   def most_recent_build_by_release(app_builds)
     most_recent_builds_hash = {}
-    VersionSorter.rsort(app_builds).each do |app_build|
-      most_recent_builds_hash[release_for_build(app_build)] ||= app_build
+    app_builds.each do |app_build|
+      most_recent_builds_hash[app_build.release] ||= app_build
     end
     most_recent_builds_hash
-  end
-
-  def release_for_build(app_build)
-    app_build.split('.')[0...-1].join('.')
   end
 
   def show_build_manifest
@@ -70,9 +69,8 @@ class AppsController < ApplicationController
   end
 
   def gen_plist_hash(app_name, build_version)
-    ipa_file = @apps_dir.join(@app_name,build_version,"#{@app_name}-#{build_version}.ipa")
-    ipa_parser = Shipmate::IpaParser.new(ipa_file)
-    plist_hash = ipa_parser.extract_manifest(ipa_parser.parse_plist)
+    app_build = AppBuild.new(@apps_dir, app_name, build_version)
+    plist_hash = app_build.manifest_plist_hash
     replace_url_in_plist_hash APP_ASSET_INDEX, "#{public_url_for_build_directory(@app_name, build_version)}/#{@app_name}-#{build_version}.ipa", plist_hash
     replace_url_in_plist_hash ICON_ASSET_INDEX, "#{public_url_for_build_directory(@app_name, build_version)}/Icon.png", plist_hash
     plist_hash
