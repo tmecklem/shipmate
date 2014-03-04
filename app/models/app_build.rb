@@ -12,15 +12,23 @@ class AppBuild
   end
 
   def build_file_root_path
-    return @apps_dir.join(app_name, build_version)
+    @apps_dir.join(app_name, build_version)
   end
 
   def ipa_file_path
-    return build_file_root_path.join("#{app_name}-#{build_version}.ipa")
+    build_file_root_path.join("#{app_name}-#{build_version}.ipa")
   end
 
   def ipa_file?
-    return File.file?(ipa_file_path)
+    File.file? ipa_file_path
+  end
+
+  def icon_file_path
+    build_file_root_path.join("Icon.png")
+  end
+
+  def icon_file?
+    File.file? icon_file_path
   end
 
   def ipa_checksum

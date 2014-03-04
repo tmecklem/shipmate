@@ -51,6 +51,22 @@ describe AppBuild do
     end
   end
 
+  describe '#icon_file_path' do
+    it 'returns the location of a representative icon for the app' do
+      expect(app_build.icon_file_path).to eq(expected_build_file_root_path.join("Icon.png"))
+    end
+  end
+
+  describe '#icon_file?' do
+    it 'returns true if the icon file exists' do
+      FileUtils.touch(expected_build_file_root_path.join("Icon.png"))
+      expect(app_build.icon_file?).to be true
+    end
+    it 'returns false if the icon file does not exist' do
+      expect(app_build.icon_file?).to be false
+    end
+  end
+
   describe '#ipa_checksum' do
     it 'returns a sha1 hash of the ipa file' do
       expect(app_build.ipa_checksum).to eq "45a5a4862ebcc0b80a3f5e1a60649734eebca18a"
@@ -71,9 +87,7 @@ describe AppBuild do
       expect(plist["CFBundleName"]).to eq("Go Tomato")
       expect(plist["CFBundleIdentifier"]).to eq("com.mecklem.Go-Tomato")
       expect(plist["CFBundleVersion"]).to eq("1.0.27")
-
     end
-
   end
 
 end
