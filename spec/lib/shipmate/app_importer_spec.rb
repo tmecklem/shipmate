@@ -54,6 +54,7 @@ describe Shipmate::AppImporter do
         expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Go Tomato-1.0.27.ipa"))).to be true   
         expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "45a5a4862ebcc0b80a3f5e1a60649734eebca18a.sha1"))).to be true 
         expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Icon.png"))).to be true 
+        expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "info.yaml"))).to be true 
       end
 
     end
@@ -73,6 +74,18 @@ describe Shipmate::AppImporter do
         FileUtils.mkdir_p(apps_dir.join("Go Tomato","1.0.27"))
         importer.move_ipa_file(import_ipa_file, "Go Tomato","1.0.27")
         expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Go Tomato-1.0.27.ipa"))).to be true
+      end
+
+    end
+
+    describe '#write_plist_info' do
+
+      it 'writes a yaml of the given hash to the app directory' do
+        FileUtils.mkdir_p(apps_dir.join("Go Tomato","1.0.27"))
+        sample_plist = {"CFBundleName"=>"Go Tomato"}
+        importer.write_plist_info(sample_plist, "Go Tomato","1.0.27")
+        file_contents = File.open(apps_dir.join("Go Tomato","1.0.27","info.yaml"), "rb").read
+        expect(file_contents).to include("CFBundleName: Go Tomato")
       end
 
     end
