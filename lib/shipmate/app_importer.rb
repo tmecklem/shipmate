@@ -34,11 +34,11 @@ module Shipmate
       plist_hash = ipa_parser.parse_plist
       app_name = plist_hash["CFBundleDisplayName"]
       app_version = plist_hash["CFBundleVersion"]
-      create_app_directory(app_name, app_version)
+      create_app_directory app_name, app_version
       touch_digest_file(calculate_digest(ipa_file), app_name, app_version)
       ipa_parser.extract_icon_to_file(ipa_file, @apps_dir.join(app_name,app_version,"Icon.png"))
       write_plist_info plist_hash, app_name, app_version
-      move_ipa_file(ipa_file, app_name, app_version)
+      move_ipa_file ipa_file, app_name, app_version
     end
 
     def create_app_directory(app_name, app_version)
