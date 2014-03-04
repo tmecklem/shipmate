@@ -89,7 +89,9 @@ class AppBuild
   end
 
   def <=>(other)
-    Gem::Version.new(self.build_version) <=> Gem::Version.new(other.build_version)
+    version_parts = self.build_version.split('.')
+    other_version_parts = other.build_version.split('.')
+    version_parts <=> other_version_parts
   end
 
   def ==(other)
