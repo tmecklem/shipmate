@@ -35,14 +35,11 @@ class AppsController < ApplicationController
 
   def list_app_builds
     @app_name = params[:app_name]
-    app_builds = self.app_builds(@app_name)
     @app_release = params[:app_release]
 
-    app_builds.select! do |app_build|
+    @app_builds = self.app_builds(@app_name).select! do |app_build|
       app_build.release.eql?(@app_release)
     end
-
-    @release_builds = app_builds
   end
 
   def app_builds(app_name)

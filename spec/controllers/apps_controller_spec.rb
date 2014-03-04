@@ -131,7 +131,7 @@ describe AppsController do
     it 'assembles a reverse version sorted list of builds within a release' do
       app_name = 'Chocolate'
       get :list_app_builds, :app_name => app_name, :app_release => '1.2.0'
-      expect(assigns[:release_builds]).to eq [AppBuild.new(apps_dir,app_name,'1.2.0.14'),AppBuild.new(apps_dir,app_name,'1.2.0.12'),AppBuild.new(apps_dir,app_name,'1.2.0.2'),AppBuild.new(apps_dir,app_name,'1.2.0.1')]
+      expect(assigns[:app_builds]).to eq [AppBuild.new(apps_dir,app_name,'1.2.0.14'),AppBuild.new(apps_dir,app_name,'1.2.0.12'),AppBuild.new(apps_dir,app_name,'1.2.0.2'),AppBuild.new(apps_dir,app_name,'1.2.0.1')]
     end
 
     it 'assigns the app_name' do
