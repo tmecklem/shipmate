@@ -1,5 +1,4 @@
 require 'ipa'
-require 'CFPropertyList'
 
 class AppBuild 
 
