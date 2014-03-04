@@ -88,10 +88,18 @@ class AppBuild
     end
   end
 
+  def version_parts
+    self.build_version.split('.').map do |version_part|
+      if version_part.to_i.to_s == version_part
+        version_part.to_i
+      else
+        version_part
+      end
+    end
+  end
+
   def <=>(other)
-    version_parts = self.build_version.split('.')
-    other_version_parts = other.build_version.split('.')
-    version_parts <=> other_version_parts
+    self.version_parts <=> other.version_parts
   end
 
   def ==(other)
