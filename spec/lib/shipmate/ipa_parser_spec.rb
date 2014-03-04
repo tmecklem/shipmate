@@ -36,14 +36,4 @@ describe Shipmate::IpaParser do
 
   end
 
-  describe '#extract_icon_to_file' do
-
-    it 'extracts a representative app icon from the ipa' do
-      icon_path = Pathname.new(tmp_dir).join('Icon.png')
-      ipa_parser.extract_icon_to_file(ipa_file,icon_path.to_s)
-      expect(Digest::SHA1.hexdigest( File.read(icon_path) )).to eq "ae9535eb6575d2745b984df8447b976ffce9cc6a"
-    end
-
-  end
-
 end
