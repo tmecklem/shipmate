@@ -102,8 +102,9 @@ describe AppsController do
     end
 
     it 'creates a hash of releases as keys and the most recent builds as values' do
-      get :list_app_releases, :app_name => 'Chocolate'
-      expect(assigns[:most_recent_build_hash]).to eq({'1.2.6'=>'1.2.6.0', '1.2.4'=>'1.2.4.10', '1.2.2'=>'1.2.2.0'})
+      app_name = 'Chocolate'
+      get :list_app_releases, :app_name => app_name
+      expect(assigns[:most_recent_build_hash]).to eq({'1.2.6'=>AppBuild.new(apps_dir,app_name,'1.2.6.0'), '1.2.4'=>AppBuild.new(apps_dir,app_name,'1.2.4.10'), '1.2.2'=>AppBuild.new(apps_dir,app_name,'1.2.2.0')})
     end
 
   end
@@ -128,8 +129,9 @@ describe AppsController do
     end
 
     it 'assembles a reverse version sorted list of builds within a release' do
-      get :list_app_builds, :app_name => 'Chocolate', :app_release => '1.2.0'
-      expect(assigns[:release_builds]).to eq ['1.2.0.14','1.2.0.12','1.2.0.2','1.2.0.1']
+      app_name = 'Chocolate'
+      get :list_app_builds, :app_name => app_name, :app_release => '1.2.0'
+      expect(assigns[:release_builds]).to eq [AppBuild.new(apps_dir,app_name,'1.2.0.14'),AppBuild.new(apps_dir,app_name,'1.2.0.12'),AppBuild.new(apps_dir,app_name,'1.2.0.2'),AppBuild.new(apps_dir,app_name,'1.2.0.1')]
     end
 
     it 'assigns the app_name' do

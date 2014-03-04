@@ -1,6 +1,7 @@
 require 'ipa'
 
 class AppBuild 
+  include Comparable
 
   attr_accessor :apps_dir, :app_name, :build_version
 
@@ -85,6 +86,14 @@ class AppBuild
     rescue Zip::ZipError
 
     end
+  end
+
+  def <=>(other)
+    Gem::Version.new(self.build_version) <=> Gem::Version.new(other.build_version)
+  end
+
+  def ==(other)
+    self.apps_dir==other.apps_dir && self.app_name==other.app_name && self.build_version==other.build_version
   end
 
 end
