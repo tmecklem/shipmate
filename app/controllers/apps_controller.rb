@@ -37,7 +37,7 @@ class AppsController < ApplicationController
     @app_name = params[:app_name]
     @app_release = params[:app_release]
 
-    @app_builds = self.app_builds(@app_name).select! do |app_build|
+    @app_builds = self.app_builds(@app_name).select do |app_build|
       app_build.release.eql?(@app_release)
     end
   end
