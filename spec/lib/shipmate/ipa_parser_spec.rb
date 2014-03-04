@@ -3,7 +3,7 @@ require 'shipmate/ipa_parser'
 
 describe Shipmate::IpaParser do
 
-  let(:ipa_file) { Rails.root.join('spec','lib','shipmate','fixtures','Go-Tomato-Ad-Hoc-27.ipa') }
+  let(:ipa_file) { Rails.root.join('spec','fixtures','Go-Tomato-Ad-Hoc-27.ipa') }
   let(:ipa_parser) { Shipmate::IpaParser.new(ipa_file) }
   let(:tmp_dir) { '/tmp/ipa_parser' }
 

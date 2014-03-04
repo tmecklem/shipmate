@@ -30,7 +30,7 @@ describe Shipmate::AppImporter do
 
   describe 'import methods' do 
 
-    let(:ipa_file_fixture) { Rails.root.join('spec','lib','shipmate','fixtures','Go-Tomato-Ad-Hoc-27.ipa') }
+    let(:ipa_file_fixture) { Rails.root.join('spec','fixtures','Go-Tomato-Ad-Hoc-27.ipa') }
     let(:import_ipa_file) { import_dir.join("Go-Tomato-Ad-Hoc-27.ipa") }
 
     before(:each) do

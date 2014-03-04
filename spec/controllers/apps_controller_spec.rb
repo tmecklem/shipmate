@@ -144,7 +144,7 @@ describe AppsController do
     before(:each) do
       request.env["HTTP_ACCEPT"] = 'text/plist'
       FileUtils.mkdir_p(apps_dir.join('Go Tomato','1.0.27'))
-      FileUtils.cp(Rails.root.join('spec','lib','shipmate','fixtures','Go-Tomato-Ad-Hoc-27.ipa'), apps_dir.join('Go Tomato','1.0.27','Go Tomato-1.0.27.ipa'))
+      FileUtils.cp(Rails.root.join('spec','fixtures','Go-Tomato-Ad-Hoc-27.ipa'), apps_dir.join('Go Tomato','1.0.27','Go Tomato-1.0.27.ipa'))
     end
 
     after(:each) do
