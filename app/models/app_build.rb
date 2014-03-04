@@ -77,7 +77,7 @@ class AppBuild
     icon_destination = Pathname.new(icon_file)
     begin
       IPA::IPAFile.open(ipa_file) do |ipa| 
-        proc_that_returns_icon_data = ipa.icons["Icon.png"] || ipa.icons["Icon@2x.png"] || ipa.icons.values[0]
+        proc_that_returns_icon_data = ipa.icons["Icon.png"] || ipa.icons["Icon@2x.png"]
         File.open(icon_destination, 'wb') do
           |f| f.write proc_that_returns_icon_data.call()
         end
