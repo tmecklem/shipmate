@@ -24,11 +24,16 @@ class AppBuild
   end
 
   def icon_file_path
-    build_file_root_path.join("Icon.png")
+    path = build_file_root_path.join("Icon.png")
+    if !File.file?(path)
+     extract_icon_to_file(ipa_file_path, path)
+    end
+    if File.file?(path) then path else nil end
   end
 
   def icon_file?
-    File.file? icon_file_path
+    icon_file_path = self.icon_file_path
+    !icon_file_path.nil? and File.file?(icon_file_path)
   end
 
   def ipa_checksum
@@ -65,19 +70,18 @@ class AppBuild
 
   end
 
-    #   def extract_icon_to_file(ipa_file, icon_file)
+  def extract_icon_to_file(ipa_file, icon_file)
+    icon_destination = Pathname.new(icon_file)
+    begin
+      IPA::IPAFile.open(ipa_file) do |ipa| 
+        proc_that_returns_icon_data = ipa.icons["Icon.png"] || ipa.icons["Icon@2x.png"] || ipa.icons.values[0]
+        File.open(icon_destination, 'wb') do
+          |f| f.write proc_that_returns_icon_data.call()
+        end
+      end
+    rescue Zip::ZipError
 
-    #   icon_destination = Pathname.new(icon_file)
-    #   begin
-    #     IPA::IPAFile.open(ipa_file) do |ipa| 
-    #       proc_that_returns_icon_data = ipa.icons["Icon.png"] || ipa.icons["Icon@2x.png"] || ipa.icons.values[0]
-    #       File.open(icon_destination, 'wb') do
-    #         |f| f.write proc_that_returns_icon_data.call()
-    #       end
-    #     end
-    #   rescue Zip::ZipError
-
-    #   end
-    # end
+    end
+  end
 
 end

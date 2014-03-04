@@ -52,18 +52,33 @@ describe AppBuild do
   end
 
   describe '#icon_file_path' do
-    it 'returns the location of a representative icon for the app' do
+    it 'returns the location of a representative icon for the app' do      
+      FileUtils.touch(expected_build_file_root_path.join("Icon.png"))
       expect(app_build.icon_file_path).to eq(expected_build_file_root_path.join("Icon.png"))
+    end
+    it 'extracts a representative icon for the app if it exists in the ipa but not in the app directory' do
+      expect(app_build.icon_file_path).to eq(expected_build_file_root_path.join("Icon.png"))
+      expect(File.file?(expected_build_file_root_path.join("Icon.png"))).to be true
     end
   end
 
   describe '#icon_file?' do
+
+    let(:ipa_file_fixture_without_icon) { Rails.root.join('spec','fixtures','Tribes-101.ipa') }
+    let(:app_name_without_icon) { "Tribes" }
+    let(:build_version_without_icon) { "2.0.101" }
+
     it 'returns true if the icon file exists' do
       FileUtils.touch(expected_build_file_root_path.join("Icon.png"))
       expect(app_build.icon_file?).to be true
     end
-    it 'returns false if the icon file does not exist' do
+
+    it 'returns false if the icon file does not exist and cannot be lazily extracted from the ipa' do
+      FileUtils.mkdir_p(apps_dir.join(app_name_without_icon, build_version_without_icon))
+      FileUtils.cp(ipa_file_fixture_without_icon, apps_dir.join(app_name_without_icon, build_version_without_icon, "#{app_name_without_icon}-#{build_version_without_icon}.ipa"))
+      app_build = AppBuild.new(ipa_file_fixture_without_icon, app_name_without_icon, build_version_without_icon)
       expect(app_build.icon_file?).to be false
+      FileUtils.rm_rf(apps_dir.to_s)
     end
   end
 
@@ -87,6 +102,14 @@ describe AppBuild do
       expect(plist["CFBundleName"]).to eq("Go Tomato")
       expect(plist["CFBundleIdentifier"]).to eq("com.mecklem.Go-Tomato")
       expect(plist["CFBundleVersion"]).to eq("1.0.27")
+    end
+  end
+
+  describe '#extract_icon_to_file' do
+    it 'extracts a representative app icon from the ipa' do
+      icon_path = expected_build_file_root_path.join('Icon.png')
+      app_build.extract_icon_to_file(expected_ipa_file_location,icon_path.to_s)
+      expect(Digest::SHA1.hexdigest( File.read(icon_path) )).to eq "ae9535eb6575d2745b984df8447b976ffce9cc6a"
     end
   end
 
