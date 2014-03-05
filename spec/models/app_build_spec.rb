@@ -119,4 +119,27 @@ describe AppBuild do
     end
   end
 
+  describe '#iphone?' do
+
+    let(:ipa_file_fixture_ipad_only) { Rails.root.join('spec','fixtures','Go Tomato iPad only.ipa') }
+    let(:build_version_ipad_only) { "2014.0.46" }
+
+    it 'returns true if the iphone device family is supported by the ipa' do
+      expect(app_build.iphone?).to be true
+    end
+    it 'returns false if the iphone device family is not supported by the ipa' do
+      FileUtils.mkdir_p(apps_dir.join(app_name, build_version_ipad_only))
+      FileUtils.cp(ipa_file_fixture_ipad_only, apps_dir.join(app_name, build_version_ipad_only, "#{app_name}-#{build_version_ipad_only}.ipa"))
+      app_build = AppBuild.new(apps_dir, app_name, build_version_ipad_only)
+      expect(app_build.iphone?).to be false
+      FileUtils.rm_rf(apps_dir.to_s)
+    end
+  end
+
+  describe '#ipad?' do
+    it 'returns true' do
+      expect(app_build.ipad?).to be true
+    end
+  end
+
 end

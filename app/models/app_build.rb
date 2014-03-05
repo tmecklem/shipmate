@@ -88,6 +88,14 @@ class AppBuild
     end
   end
 
+  def iphone?
+    info_plist_hash["UIDeviceFamily"].include?(1)
+  end
+
+  def ipad?
+    true
+  end
+
   def version_parts
     self.build_version.split('.').map do |version_part|
       if version_part.to_i.to_s == version_part
