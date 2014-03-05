@@ -104,6 +104,7 @@ class AppBuild
     end
 
     families << :ipad unless families.include?(:ipad)
+    families
   end
 
   def version_parts
