@@ -9,9 +9,9 @@ class AppsController < ApplicationController
   attr_accessor :apps_dir
 
   before_action do
-    @device_type = "iPhone" if browser.iphone? or browser.ipod?
-    @device_type = "iPad" if browser.ipad? 
-    @device_type ||= "Desktop"
+    @device_type = :iphone if browser.iphone? or browser.ipod?
+    @device_type = :ipad if browser.ipad? 
+    @device_type ||= :desktop
   end
 
   def initialize
@@ -21,7 +21,10 @@ class AppsController < ApplicationController
   end
 
   def index
-    @app_names = subdirectories(@apps_dir).sort
+    @app_names = subdirectories(@apps_dir).sort.select do |app_name|
+      app_builds = self.app_builds(app_name)
+      (app_builds.first && app_builds.first.supports_device?(@device_type)) || @device_type == :desktop
+    end
   end
 
   def list_app_releases
