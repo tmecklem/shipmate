@@ -88,12 +88,22 @@ class AppBuild
     end
   end
 
-  def iphone?
-    info_plist_hash["UIDeviceFamily"].include?(1)
+  def supports_device?(device)
+    device_families.include? device
   end
 
-  def ipad?
-    true
+  def device_families
+    families = info_plist_hash["UIDeviceFamily"].map do |family_id|
+      if family_id == 1 
+        :iphone
+      elsif family_id == 2
+        :ipad
+      else
+        family_id
+      end
+    end
+
+    families << :ipad unless families.include?(:ipad)
   end
 
   def version_parts

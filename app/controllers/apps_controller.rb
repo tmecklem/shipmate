@@ -58,6 +58,11 @@ class AppsController < ApplicationController
     most_recent_builds_hash
   end
 
+  def show_build
+    expires_now
+    @app_build = AppBuild.new(@apps_dir, params[:app_name], params[:build_version])
+  end
+
   def show_build_manifest
     expires_now
     @app_name = params[:app_name]
