@@ -3,10 +3,18 @@ require 'shipmate/app_importer'
 
 describe Shipmate::AppImporter do
     
-  let(:tmp_root) { Pathname.new('/tmp/importer') }
+  let(:tmp_root) { Pathname.new(Dir.mktmpdir) }
   let(:import_dir) { tmp_root.join('public','import') }
   let(:apps_dir) { tmp_root.join('public','apps') }
   let(:importer) { Shipmate::AppImporter.new(import_dir.to_s, apps_dir.to_s) }
+
+  before(:each) do
+    FileUtils.mkdir_p import_dir
+  end
+
+  after(:each) do
+    FileUtils.remove_entry_secure tmp_root
+  end
 
   describe '#initialize' do
 
@@ -51,10 +59,7 @@ describe Shipmate::AppImporter do
         importer.import_app(import_ipa_file)
 
         expect(File.directory?(apps_dir.join("Go Tomato","1.0.27"))).to be true
-        expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Go Tomato-1.0.27.ipa"))).to be true   
-        # expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "45a5a4862ebcc0b80a3f5e1a60649734eebca18a.sha1"))).to be true 
-        # expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Icon.png"))).to be true 
-        # expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "info.yaml"))).to be true 
+        expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Go Tomato-1.0.27.ipa"))).to be true
       end
 
     end
@@ -77,27 +82,6 @@ describe Shipmate::AppImporter do
       end
 
     end
-
-    # describe '#write_plist_info' do
-
-    #   it 'writes a yaml of the given hash to the app directory' do
-    #     FileUtils.mkdir_p(apps_dir.join("Go Tomato","1.0.27"))
-    #     sample_plist = {"CFBundleName"=>"Go Tomato"}
-    #     importer.write_plist_info(sample_plist, "Go Tomato","1.0.27")
-    #     file_contents = File.open(apps_dir.join("Go Tomato","1.0.27","info.yaml"), "rb").read
-    #     expect(file_contents).to include("CFBundleName: Go Tomato")
-    #   end
-
-    # end
-
-    # describe '#calculate_digest' do
-
-    #   it 'calculates a sha1 digest of the ipa file' do
-    #     sha1 = importer.calculate_digest(import_ipa_file)
-    #     expect(sha1).to eq "45a5a4862ebcc0b80a3f5e1a60649734eebca18a"
-    #   end
-
-    # end
 
   end
 

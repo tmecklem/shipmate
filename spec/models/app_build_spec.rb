@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe AppBuild do 
   
-  let(:apps_dir) { Pathname.new("/tmp/models_tests") }
+  let(:apps_dir) { Pathname.new(Dir.mktmpdir) }
   let(:app_name) { "Go Tomato" }
   let(:build_version) { "1.0.27" }
   let(:app_build) {AppBuild.new(apps_dir, app_name, build_version)}
   let(:ipa_file_fixture) { Rails.root.join('spec','fixtures','Go-Tomato-Ad-Hoc-27.ipa') }
-  let(:expected_build_file_root_path) { Pathname.new("/tmp/models_tests/Go Tomato/1.0.27") }
-  let(:expected_ipa_file_location) { Pathname.new("/tmp/models_tests/Go Tomato/1.0.27/Go Tomato-1.0.27.ipa") }
+  let(:expected_build_file_root_path) { Pathname.new("#{apps_dir}/Go Tomato/1.0.27") }
+  let(:expected_ipa_file_location) { Pathname.new("#{apps_dir}/Go Tomato/1.0.27/Go Tomato-1.0.27.ipa") }
     
   before(:each) do
     FileUtils.mkdir_p(expected_build_file_root_path)
@@ -16,13 +16,13 @@ describe AppBuild do
   end
 
   after(:each) do
-    FileUtils.rm_rf(apps_dir.to_s)
+    FileUtils.rm_rf apps_dir
   end
 
   describe '#initialize' do
 
     it 'stores properties for the root apps_dir, app_name, and build_version that identify ' do
-      expect(app_build.apps_dir).to eq(Pathname.new("/tmp/models_tests"))
+      expect(app_build.apps_dir).to eq(apps_dir)
       expect(app_build.app_name).to eq "Go Tomato"
       expect(app_build.build_version).to eq "1.0.27"
     end

@@ -5,14 +5,14 @@ describe Shipmate::IpaParser do
 
   let(:ipa_file) { Rails.root.join('spec','fixtures','Go-Tomato-Ad-Hoc-27.ipa') }
   let(:ipa_parser) { Shipmate::IpaParser.new(ipa_file) }
-  let(:tmp_dir) { '/tmp/ipa_parser' }
+  let(:tmp_dir) { Dir.mktmpdir }
 
   before(:each) do
     FileUtils.mkdir_p(tmp_dir)
   end
 
   after (:each) do
-    FileUtils.rm_rf(tmp_dir)
+    FileUtils.remove_entry_secure tmp_dir
   end
 
   describe '#initialize' do
