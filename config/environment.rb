@@ -1,5 +1,8 @@
-# Load the rails application
+# Load the Rails application.
 require File.expand_path('../application', __FILE__)
 
-# Initialize the rails application
+Mime::Type.register "text/plist", :plist
+
+# Initialize the Rails application.
 Shipmate::Application.initialize!
+

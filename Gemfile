@@ -1,44 +1,62 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.0.3'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 4.0.0'
 
-gem 'sqlite3'
-gem 'haml-rails'
-gem 'ipa'
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+# Use CoffeeScript for .js.coffee assets and views
+gem 'coffee-rails', '~> 4.0.0'
 
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+# gem 'therubyracer', platforms: :ruby
 
-  gem 'uglifier', '>= 1.0.3'
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+gem 'jquery_mobile_rails' #mobile html5 framework
+
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 1.2'
+
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
 end
 
-gem 'jquery-rails'
+gem 'haml-rails', '~> 0.5.3' 
+gem 'ipa', :git => 'git://github.com/sjmulder/ipa' #ipa and plist parsing support
+gem 'version_sorter', '~> 1.1.0' #gem to help sort version numbers (when dictionary sort fails)
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.14.1'
+  gem 'guard-rspec'
   gem 'guard-rails'
+  gem 'terminal-notifier-guard'
 end
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+end
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
+gem 'whenever', '~> 0.9.0' #cron
+gem 'browser', '~> 0.4.0' #device family detection
+
+# Use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use unicorn as the app server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+# Use Capistrano for deployment
+# gem 'capistrano', group: :development
 
-# To use debugger
-# gem 'debugger'
+# Use debugger
+# gem 'debugger', group: [:development, :test]

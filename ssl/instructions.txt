@@ -1,0 +1,28 @@
+If you want to test this with iOS 7.1+ apps, you need to front the rails server with an ssl proxy.
+
+Here's a sample nginx server config section
+
+    server {
+        listen 443;
+        ssl on;
+        server_name localhost; 
+
+        #path to your certificate
+        ssl_certificate /usr/local/etc/nginx/ssl/server.crt; 
+        # path to your ssl key
+        ssl_certificate_key /usr/local/etc/nginx/ssl/server.key; 
+
+        # put the rest of your server configuration here.
+
+        root         /dev/null;
+
+        location / {
+            # set X-FORWARDED_PROTO so ssl_requirement plugin works
+            proxy_set_header X-FORWARDED_PROTO https;
+            proxy_set_header  X-Real-IP        $remote_addr;
+            proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;
+            proxy_set_header  Host             $http_host;
+            proxy_redirect    off;
+            proxy_pass        http://localhost:3000;
+        }
+    }
