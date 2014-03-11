@@ -20,3 +20,4 @@ ssl/server.csr
 ssl/server.key
 server.crt
 public/import
+.elasticbeanstalk/
