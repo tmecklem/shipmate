@@ -33,7 +33,16 @@ class AppsController < ApplicationController
 
     @most_recent_build_hash = most_recent_build_by_release(app_builds)
     @app_releases = VersionSorter.rsort(@most_recent_build_hash.keys)
+    @mobileprovision = mobileprovision_file_url(@app_name)
+  end
 
+  def mobileprovision_file_url(app_name)
+    mobileprovision_file = Dir.glob(@apps_dir.join(app_name,"*.mobileprovision")).first
+    if mobileprovision_file
+      "#{request.base_url}/apps/#{app_name}/#{mobileprovision_file.split('/').last}"
+    else
+      nil
+    end
   end
 
   def list_app_builds

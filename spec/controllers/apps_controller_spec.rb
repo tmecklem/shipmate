@@ -84,6 +84,7 @@ describe AppsController do
       FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.4.10'))
       FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.6.0'))
       FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.2.0'))
+      FileUtils.touch(apps_dir.join('Chocolate','something.mobileprovision'))
     end
 
     after(:each) do
@@ -105,6 +106,12 @@ describe AppsController do
       app_name = 'Chocolate'
       get :list_app_releases, :app_name => app_name
       expect(assigns[:most_recent_build_hash]).to eq({'1.2.6'=>AppBuild.new(apps_dir,app_name,'1.2.6.0'), '1.2.4'=>AppBuild.new(apps_dir,app_name,'1.2.4.10'), '1.2.2'=>AppBuild.new(apps_dir,app_name,'1.2.2.0')})
+    end
+
+    it 'assigns @mobileprovision as a url if a mobileprovision file exists in the app root directory' do
+      app_name = 'Chocolate'
+      get :list_app_releases, :app_name => app_name
+      expect(assigns[:mobileprovision]).to include("/something.mobileprovision")
     end
 
   end
