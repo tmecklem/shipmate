@@ -39,7 +39,7 @@ class AppsController < ApplicationController
   def mobileprovision_file_url(app_name)
     mobileprovision_file = Dir.glob(@ios_dir.join(app_name,"*.mobileprovision")).first
     if mobileprovision_file
-      "#{request.base_url}/apps/#{app_name}/#{mobileprovision_file.split('/').last}"
+      "#{request.base_url}/apps/ios/#{app_name}/#{mobileprovision_file.split('/').last}"
     else
       nil
     end
@@ -94,7 +94,7 @@ class AppsController < ApplicationController
   end
 
   def public_url_for_build_directory(app_name, build_version)
-    "#{request.base_url}/apps/#{app_name}/#{build_version}"
+    "#{request.base_url}/apps/ios/#{app_name}/#{build_version}"
   end
 
   def replace_url_in_plist_hash(asset_type, url, plist_hash)
