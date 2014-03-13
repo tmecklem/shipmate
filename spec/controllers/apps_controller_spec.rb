@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe AppsController do
 
-  let(:apps_dir) { Rails.root.join('public','apps') }
+  let(:ios_dir) { Rails.root.join('public','apps','ios') }
 
   describe '#initialize' do
 
-    it 'sets the apps_dir property' do
+    it 'sets the ios_dir property' do
       apps_controller = AppsController.new
-      expect(apps_controller.apps_dir).to_not eq nil
+      expect(apps_controller.ios_dir).to_not eq nil
     end
 
   end
@@ -44,13 +44,13 @@ describe AppsController do
   describe 'GET #index' do
 
     before (:each) do
-      FileUtils.mkdir_p(apps_dir.join('Chocolate'))
-      FileUtils.mkdir_p(apps_dir.join('Monkeybread'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate'))
+      FileUtils.mkdir_p(ios_dir.join('Monkeybread'))
     end
 
     after(:each) do
-      FileUtils.rm_r(apps_dir.join('Chocolate'))
-      FileUtils.rm_r(apps_dir.join('Monkeybread'))
+      FileUtils.rm_r(ios_dir.join('Chocolate'))
+      FileUtils.rm_r(ios_dir.join('Monkeybread'))
     end
 
     it 'returns a 200' do
@@ -64,7 +64,7 @@ describe AppsController do
       expect(response).to render_template("index")
     end
 
-    it 'creates a list of the apps_dir top level folders' do
+    it 'creates a list of the ios_dir top level folders' do
       get :index
       expect(assigns[:app_names]).to include('Chocolate')
       expect(assigns[:app_names]).to include('Monkeybread')
@@ -80,15 +80,15 @@ describe AppsController do
 
   describe 'GET #list_app_releases' do
     before (:each) do
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.4.0'))
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.4.10'))
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.6.0'))
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.2.0'))
-      FileUtils.touch(apps_dir.join('Chocolate','something.mobileprovision'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.4.0'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.4.10'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.6.0'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.2.0'))
+      FileUtils.touch(ios_dir.join('Chocolate','something.mobileprovision'))
     end
 
     after(:each) do
-      FileUtils.rm_r(apps_dir.join('Chocolate'))
+      FileUtils.rm_r(ios_dir.join('Chocolate'))
     end
 
     it 'returns a 200' do
@@ -105,7 +105,7 @@ describe AppsController do
     it 'creates a hash of releases as keys and the most recent builds as values' do
       app_name = 'Chocolate'
       get :list_app_releases, :app_name => app_name
-      expect(assigns[:most_recent_build_hash]).to eq({'1.2.6'=>AppBuild.new(apps_dir,app_name,'1.2.6.0'), '1.2.4'=>AppBuild.new(apps_dir,app_name,'1.2.4.10'), '1.2.2'=>AppBuild.new(apps_dir,app_name,'1.2.2.0')})
+      expect(assigns[:most_recent_build_hash]).to eq({'1.2.6'=>AppBuild.new(ios_dir,app_name,'1.2.6.0'), '1.2.4'=>AppBuild.new(ios_dir,app_name,'1.2.4.10'), '1.2.2'=>AppBuild.new(ios_dir,app_name,'1.2.2.0')})
     end
 
     it 'assigns @mobileprovision as a url if a mobileprovision file exists in the app root directory' do
@@ -118,15 +118,15 @@ describe AppsController do
 
   describe 'GET #list_app_builds' do
     before (:each) do
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.0.14'))
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.0.12'))
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.0.1'))
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.3.goofy'))
-      FileUtils.mkdir_p(apps_dir.join('Chocolate','1.2.0.2'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.0.14'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.0.12'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.0.1'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.3.goofy'))
+      FileUtils.mkdir_p(ios_dir.join('Chocolate','1.2.0.2'))
     end
 
     after(:each) do
-      FileUtils.rm_r(apps_dir.join('Chocolate'))
+      FileUtils.rm_r(ios_dir.join('Chocolate'))
     end
 
     it 'returns a 200' do
@@ -138,7 +138,7 @@ describe AppsController do
     it 'assembles a reverse version sorted list of builds within a release' do
       app_name = 'Chocolate'
       get :list_app_builds, :app_name => app_name, :app_release => '1.2.0'
-      expect(assigns[:app_builds]).to eq [AppBuild.new(apps_dir,app_name,'1.2.0.14'),AppBuild.new(apps_dir,app_name,'1.2.0.12'),AppBuild.new(apps_dir,app_name,'1.2.0.2'),AppBuild.new(apps_dir,app_name,'1.2.0.1')]
+      expect(assigns[:app_builds]).to eq [AppBuild.new(ios_dir,app_name,'1.2.0.14'),AppBuild.new(ios_dir,app_name,'1.2.0.12'),AppBuild.new(ios_dir,app_name,'1.2.0.2'),AppBuild.new(ios_dir,app_name,'1.2.0.1')]
     end
 
     it 'assigns the app_name' do
@@ -151,12 +151,12 @@ describe AppsController do
   describe 'single build methods' do
 
     before(:each) do
-      FileUtils.mkdir_p(apps_dir.join('Go Tomato','1.0.27'))
-      FileUtils.cp(Rails.root.join('spec','fixtures','Go-Tomato-Ad-Hoc-27.ipa'), apps_dir.join('Go Tomato','1.0.27','Go Tomato-1.0.27.ipa'))
+      FileUtils.mkdir_p(ios_dir.join('Go Tomato','1.0.27'))
+      FileUtils.cp(Rails.root.join('spec','fixtures','Go-Tomato-Ad-Hoc-27.ipa'), ios_dir.join('Go Tomato','1.0.27','Go Tomato-1.0.27.ipa'))
     end
 
     after(:each) do
-      FileUtils.rm_rf(apps_dir.join('Go Tomato'))
+      FileUtils.rm_rf(ios_dir.join('Go Tomato'))
     end
 
     describe 'GET #show_build' do
@@ -171,7 +171,7 @@ describe AppsController do
         app_name = 'Go Tomato'
         build_version = '1.0.27'
         get :show_build, :app_name => app_name, :build_version => build_version
-        expect(assigns[:app_build]).to eq AppBuild.new(apps_dir, app_name, build_version)
+        expect(assigns[:app_build]).to eq AppBuild.new(ios_dir, app_name, build_version)
       end
 
     end
