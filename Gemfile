@@ -49,6 +49,12 @@ end
 gem 'whenever', '~> 0.9.0' #cron
 gem 'browser', '~> 0.4.0' #device family detection
 
+# Required to parse apk files
+gem "apktools"
+
+# Required to parse docs
+gem "nokogiri"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
