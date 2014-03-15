@@ -8,10 +8,6 @@ describe Shipmate::AppImporter do
   let(:apps_dir) { tmp_root.join('public','apps') }
   let(:importer) { Shipmate::AppImporter.new(import_dir.to_s, apps_dir.to_s) }
 
-  before(:each) do
-    FileUtils.mkdir_p import_dir
-  end
-
   after(:each) do
     FileUtils.remove_entry_secure tmp_root
   end
@@ -26,8 +22,8 @@ describe Shipmate::AppImporter do
       expect(File.directory?(importer.import_dir)).to eq true
     end
 
-    it 'stores the import folder as a property' do
-      expect(importer.import_dir).to eq import_dir
+    it 'stores the apps folder as a property' do
+      expect(importer.apps_dir).to eq apps_dir
     end
 
     it 'makes sure the apps directory exists' do
@@ -42,13 +38,9 @@ describe Shipmate::AppImporter do
     let(:import_ipa_file) { import_dir.join("Go-Tomato-Ad-Hoc-27.ipa") }
 
     before(:each) do
+      FileUtils.mkdir_p import_dir
       FileUtils.rm_rf(apps_dir.join("Go Tomato"))
       FileUtils.cp(ipa_file_fixture, import_ipa_file)
-    end
-
-    after(:each) do
-      FileUtils.rm(import_ipa_file) if File.file?(import_ipa_file)
-      FileUtils.rm_rf(apps_dir.join("Go Tomato"))
     end
 
     describe '#import_app' do
