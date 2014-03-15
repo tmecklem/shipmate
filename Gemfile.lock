@@ -208,7 +208,7 @@ DEPENDENCIES
   ipa!
   jbuilder (~> 1.2)
   jquery-rails
-  jquery_mobile_rails
+  jquery_mobile_rails (~> 1.4.1)
   nokogiri
   rails (= 4.0.3)
   rspec-rails (~> 2.14.1)
