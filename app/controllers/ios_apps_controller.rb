@@ -2,6 +2,8 @@ require 'shipmate/ipa_parser'
 
 class IosAppsController < ApplicationController
 
+  include AppListingModule
+
   APP_ASSET_INDEX = 0
   ICON_ASSET_INDEX = 1
 
@@ -46,14 +48,6 @@ class IosAppsController < ApplicationController
     end
   end
 
-  def app_builds(app_name)
-    app_dir = @ios_dir.join(app_name)
-    app_builds = subdirectories(app_dir).map do |build_version|
-      AppBuild.new(@ios_dir, app_name, build_version)
-    end
-    app_builds.sort.reverse
-  end
-
   def most_recent_build_by_release(app_builds)
     most_recent_builds_hash = {}
     app_builds.each do |app_build|
@@ -91,10 +85,6 @@ class IosAppsController < ApplicationController
 
   def replace_url_in_plist_hash(asset_type, url, plist_hash)
     plist_hash["items"][0]["assets"][asset_type]['url'] = URI.escape(url)
-  end
-
-  def subdirectories(dir)
-    Dir.entries(dir).select { |entry| File.directory?(File.join(dir, entry)) and not entry.eql?('.') and not entry.eql?('..') }
   end
 
 end
