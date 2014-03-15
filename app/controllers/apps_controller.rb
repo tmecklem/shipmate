@@ -21,12 +21,6 @@ class AppsController < ApplicationController
   end
 
   #shared
-  
-  before_action do
-    @device_type = :iphone if browser.iphone? or browser.ipod?
-    @device_type = :ipad if browser.ipad? 
-    @device_type ||= :desktop
-  end
 
   def app_builds(app_name)
     app_dir = @ios_dir.join(app_name)
