@@ -22,14 +22,14 @@ class AppsController < ApplicationController
 
   def ios_app_names 
     subdirectories(@ios_dir).sort.select do |app_name|
-      app_builds = self.app_builds(app_name)
+      app_builds = self.app_builds(app_name,@ios_dir)
       (app_builds.first && app_builds.first.supports_device?(@device_type)) || @device_type == :desktop
     end
   end
 
   def android_app_names
     subdirectories(@android_dir).sort.select do |app_name|
-      app_builds = self.app_builds(app_name)
+      app_builds = self.app_builds(app_name,@android_dir)
       (app_builds.first && app_builds.first.supports_device?(@device_type)) || @device_type == :desktop
     end
   end 

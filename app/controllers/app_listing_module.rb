@@ -1,9 +1,9 @@
 module AppListingModule
 
-  def app_builds(app_name)
-    app_dir = @ios_dir.join(app_name)
+  def app_builds(app_name,app_dir)
+    app_dir = app_dir.join(app_name)
     app_builds = subdirectories(app_dir).map do |build_version|
-      AppBuild.new(@ios_dir, app_name, build_version)
+      AppBuild.new(app_dir, app_name, build_version)
     end
     app_builds.sort.reverse
   end

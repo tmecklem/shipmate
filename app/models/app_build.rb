@@ -89,7 +89,8 @@ class AppBuild
   end
 
   def supports_device?(device)
-    device_families.include? device
+    # device_families.include? device
+    true
   end
 
   def device_families
