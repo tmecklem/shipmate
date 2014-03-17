@@ -9,12 +9,6 @@ class IosAppsController < ApplicationController
 
   attr_accessor :ios_dir
 
-  before_action do
-    @device_type = :iphone if browser.iphone? or browser.ipod?
-    @device_type = :ipad if browser.ipad? 
-    @device_type ||= :desktop
-  end
-
   def initialize
     @ios_dir = Shipmate::Application.config.ios_dir
     FileUtils.mkdir_p(@ios_dir)
