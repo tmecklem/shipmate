@@ -26,5 +26,5 @@ describe Shipmate::ApkParser do
 			expect(apk_parser.parse_manifest["app_version"]).to eq "1.0"
 		end
 	end
-
+ 
 end
