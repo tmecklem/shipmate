@@ -23,7 +23,7 @@ class IosAppsController < ApplicationController
 
   def list_app_releases
     @app_name = params[:app_name]
-    app_builds = self.app_builds(@app_name)
+    app_builds = self.app_builds(@app_name, @ios_dir)
 
     @most_recent_build_hash = most_recent_build_by_release(app_builds)
     @app_releases = VersionSorter.rsort(@most_recent_build_hash.keys)
@@ -43,7 +43,7 @@ class IosAppsController < ApplicationController
     @app_name = params[:app_name]
     @app_release = params[:app_release]
 
-    @app_builds = self.app_builds(@app_name).select do |app_build|
+    @app_builds = self.app_builds(@app_name, @ios_dir).select do |app_build|
       app_build.release.eql?(@app_release)
     end
   end
