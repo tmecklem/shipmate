@@ -39,6 +39,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-rails'
   gem 'terminal-notifier-guard'
+  gem 'debugger', '~> 1.6.6'
 end
 
 group :development do
@@ -63,6 +64,3 @@ gem "nokogiri"
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
