@@ -6,7 +6,7 @@ require 'shipmate/ipa_parser'
 
 module Shipmate
 
-  class AppImporter
+  class IpaImporter
 
     attr_reader :import_dir, :apps_dir
 
