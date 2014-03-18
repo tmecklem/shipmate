@@ -61,6 +61,17 @@ describe Shipmate::ApkImporter do
         end
       end
 
+      describe '#import_apps' do
+
+        it 'searches the import directory and imports apps found there' do
+          apk_importer.import_apps
+
+          expect(File.directory?(apps_dir.join("Christmas Conspiracy", "1.0"))).to be true
+          expect(File.file?(apps_dir.join("Christmas Conspiracy", "1.0", "Christmas Conspiracy-1.0.apk"))).to be true
+        end
+
+      end
+
       describe '#import_app' do
         it 'takes the location of an apk file and... does the import' do
           apk_importer.import_app(import_apk_file)

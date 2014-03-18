@@ -43,6 +43,17 @@ describe Shipmate::IpaImporter do
       FileUtils.cp(ipa_file_fixture, import_ipa_file)
     end
 
+    describe '#import_apps' do
+
+      it 'searches the import directory and imports apps found there' do
+        importer.import_apps
+
+        expect(File.directory?(apps_dir.join("Go Tomato","1.0.27"))).to be true
+        expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Go Tomato-1.0.27.ipa"))).to be true
+      end
+
+    end
+
     describe '#import_app' do
 
       let(:import_ipa_file) { import_dir.join("Go-Tomato-Ad-Hoc-27.ipa") }
