@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'shipmate/ipa_importer'
+require 'shipmate/ipa_import_strategy'
 
-describe Shipmate::IpaImporter do
+describe Shipmate::IpaImportStrategy do
     
   let(:tmp_root) { Pathname.new(Dir.mktmpdir) }
   let(:import_dir) { tmp_root.join('public','import') }
   let(:apps_dir) { tmp_root.join('public','apps') }
-  let(:importer) { Shipmate::IpaImporter.new(import_dir.to_s, apps_dir.to_s) }
+  let(:importer) { Shipmate::IpaImportStrategy.new(import_dir.to_s, apps_dir.to_s) }
 
   after(:each) do
     FileUtils.remove_entry_secure tmp_root
@@ -41,17 +41,6 @@ describe Shipmate::IpaImporter do
       FileUtils.mkdir_p import_dir
       FileUtils.rm_rf(apps_dir.join("Go Tomato"))
       FileUtils.cp(ipa_file_fixture, import_ipa_file)
-    end
-
-    describe '#import_apps' do
-
-      it 'searches the import directory and imports apps found there' do
-        importer.import_apps
-
-        expect(File.directory?(apps_dir.join("Go Tomato","1.0.27"))).to be true
-        expect(File.file?(apps_dir.join("Go Tomato","1.0.27", "Go Tomato-1.0.27.ipa"))).to be true
-      end
-
     end
 
     describe '#import_app' do

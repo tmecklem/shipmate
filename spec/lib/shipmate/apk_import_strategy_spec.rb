@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'shipmate/apk_importer'
+require 'shipmate/apk_import_strategy'
 
-describe Shipmate::ApkImporter do
+describe Shipmate::ApkImportStrategy do
 
   let(:tmp_root) { Pathname.new(Dir.mktmpdir) }
   let(:import_dir) { tmp_root.join('public','import') }
   let(:apps_dir) { tmp_root.join('public','apps') }
-  let(:apk_importer) { Shipmate::ApkImporter.new(import_dir, apps_dir) }
+  let(:apk_importer) { Shipmate::ApkImportStrategy.new(import_dir, apps_dir) }
 
   after(:each) do
     FileUtils.remove_entry_secure tmp_root
@@ -59,17 +59,6 @@ describe Shipmate::ApkImporter do
           apk_importer.move_apk_file(import_apk_file, "Christmas Conspiracy", "4.2.55")
           expect(File.file?(apps_dir.join("Christmas Conspiracy", "4.2.55", "Christmas Conspiracy-4.2.55.apk"))).to be true
         end
-      end
-
-      describe '#import_apps' do
-
-        it 'searches the import directory and imports apps found there' do
-          apk_importer.import_apps
-
-          expect(File.directory?(apps_dir.join("Christmas Conspiracy", "1.0"))).to be true
-          expect(File.file?(apps_dir.join("Christmas Conspiracy", "1.0", "Christmas Conspiracy-1.0.apk"))).to be true
-        end
-
       end
 
       describe '#import_app' do

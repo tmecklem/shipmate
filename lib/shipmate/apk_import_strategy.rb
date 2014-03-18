@@ -1,11 +1,8 @@
-require 'shipmate/app_importer_module'
 require 'shipmate/apk_parser'
 
 module Shipmate
 
-  class ApkImporter
-    
-    include Shipmate::AppImporter
+  class ApkImportStrategy
 
     attr_reader :import_dir, :apps_dir
 

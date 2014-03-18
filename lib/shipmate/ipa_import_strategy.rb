@@ -1,4 +1,3 @@
-require 'shipmate/app_importer_module'
 require 'yaml'
 require 'ipa'
 require 'pathname'
@@ -7,9 +6,7 @@ require 'shipmate/ipa_parser'
 
 module Shipmate
 
-  class IpaImporter
-
-    include Shipmate::AppImporter
+  class IpaImportStrategy
 
     attr_reader :import_dir, :apps_dir
 
