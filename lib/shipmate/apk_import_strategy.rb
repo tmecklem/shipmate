@@ -1,11 +1,14 @@
 require 'shipmate/apk_parser'
 
-
 module Shipmate
 
-  class ApkImporter
+  class ApkImportStrategy
 
     attr_reader :import_dir, :apps_dir
+
+    def app_extension
+      "apk"
+    end
 
     def initialize import_dir, apps_dir
       @import_dir = import_dir
@@ -13,17 +16,6 @@ module Shipmate
 
       FileUtils.mkdir_p(@import_dir)
       FileUtils.mkdir_p(@apps_dir)
-    end
-
-    def import_apps
-      apk_file = Dir.glob("#{@import_dir}/**/*").reject { |entry| !entry.upcase.end_with?('APK') }
-      apk_file.each do |apk_file|
-        begin
-          import_app apk_file
-        rescue StandardError => e
-          puts "Unable to import #{apk_file}: #{e}"
-        end
-      end
     end
 
     def create_app_directory app_name, app_version 

@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'shipmate/apk_importer'
+require 'shipmate/apk_import_strategy'
 
-describe Shipmate::ApkImporter do
+describe Shipmate::ApkImportStrategy do
 
   let(:tmp_root) { Pathname.new(Dir.mktmpdir) }
   let(:import_dir) { tmp_root.join('public','import') }
   let(:apps_dir) { tmp_root.join('public','apps') }
-  let(:apk_importer) { Shipmate::ApkImporter.new(import_dir, apps_dir) }
+  let(:apk_importer) { Shipmate::ApkImportStrategy.new(import_dir, apps_dir) }
 
   after(:each) do
     FileUtils.remove_entry_secure tmp_root

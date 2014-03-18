@@ -6,9 +6,13 @@ require 'shipmate/ipa_parser'
 
 module Shipmate
 
-  class IpaImporter
+  class IpaImportStrategy
 
     attr_reader :import_dir, :apps_dir
+
+    def app_extension
+      "ipa"
+    end
 
     def initialize(import_dir, apps_dir)
       @import_dir = Pathname.new(import_dir)
@@ -16,17 +20,6 @@ module Shipmate
 
       FileUtils.mkdir_p(@import_dir)
       FileUtils.mkdir_p(@apps_dir)
-    end
-
-    def import_apps
-      ipa_files = Dir.glob("#{@import_dir}/**/*").reject { |entry| !entry.upcase.end_with?('IPA') }
-      ipa_files.each do |ipa_file|
-        begin
-          import_app ipa_file
-        rescue StandardError => e
-          puts "Unable to import #{ipa_file}: #{e}"
-        end
-      end
     end
 
     def import_app(ipa_file)

@@ -40,7 +40,7 @@ describe IosAppsController do
     it 'creates a hash of releases as keys and the most recent builds as values' do
       app_name = 'Chocolate'
       get :list_app_releases, :app_name => app_name
-      expect(assigns[:most_recent_build_hash]).to eq({'1.2.6'=>AppBuild.new(ios_dir,app_name,'1.2.6.0'), '1.2.4'=>AppBuild.new(ios_dir,app_name,'1.2.4.10'), '1.2.2'=>AppBuild.new(ios_dir,app_name,'1.2.2.0')})
+      expect(assigns[:most_recent_build_hash]).to eq({'1.2.6'=>IosBuild.new(ios_dir,app_name,'1.2.6.0'), '1.2.4'=>IosBuild.new(ios_dir,app_name,'1.2.4.10'), '1.2.2'=>IosBuild.new(ios_dir,app_name,'1.2.2.0')})
     end
 
     it 'assigns @mobileprovision as a url if a mobileprovision file exists in the app root directory' do
@@ -73,7 +73,7 @@ describe IosAppsController do
     it 'assembles a reverse version sorted list of builds within a release' do
       app_name = 'Chocolate'
       get :list_app_builds, :app_name => app_name, :app_release => '1.2.0'
-      expect(assigns[:app_builds]).to eq [AppBuild.new(ios_dir,app_name,'1.2.0.14'),AppBuild.new(ios_dir,app_name,'1.2.0.12'),AppBuild.new(ios_dir,app_name,'1.2.0.2'),AppBuild.new(ios_dir,app_name,'1.2.0.1')]
+      expect(assigns[:app_builds]).to eq [IosBuild.new(ios_dir,app_name,'1.2.0.14'),IosBuild.new(ios_dir,app_name,'1.2.0.12'),IosBuild.new(ios_dir,app_name,'1.2.0.2'),IosBuild.new(ios_dir,app_name,'1.2.0.1')]
     end
 
     it 'assigns the app_name' do
@@ -106,7 +106,7 @@ describe IosAppsController do
         app_name = 'Go Tomato'
         build_version = '1.0.27'
         get :show_build, :app_name => app_name, :build_version => build_version
-        expect(assigns[:app_build]).to eq AppBuild.new(ios_dir, app_name, build_version)
+        expect(assigns[:app_build]).to eq IosBuild.new(ios_dir, app_name, build_version)
       end
 
     end

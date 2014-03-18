@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'shipmate/ipa_importer'
+require 'shipmate/ipa_import_strategy'
 
-describe Shipmate::IpaImporter do
+describe Shipmate::IpaImportStrategy do
     
   let(:tmp_root) { Pathname.new(Dir.mktmpdir) }
   let(:import_dir) { tmp_root.join('public','import') }
   let(:apps_dir) { tmp_root.join('public','apps') }
-  let(:importer) { Shipmate::IpaImporter.new(import_dir.to_s, apps_dir.to_s) }
+  let(:importer) { Shipmate::IpaImportStrategy.new(import_dir.to_s, apps_dir.to_s) }
 
   after(:each) do
     FileUtils.remove_entry_secure tmp_root

@@ -9,12 +9,6 @@ class IosAppsController < ApplicationController
 
   attr_accessor :ios_dir
 
-  before_action do
-    @device_type = :iphone if browser.iphone? or browser.ipod?
-    @device_type = :ipad if browser.ipad? 
-    @device_type ||= :desktop
-  end
-
   def initialize
     @ios_dir = Shipmate::Application.config.ios_dir
     FileUtils.mkdir_p(@ios_dir)
@@ -23,7 +17,7 @@ class IosAppsController < ApplicationController
 
   def list_app_releases
     @app_name = params[:app_name]
-    app_builds = self.app_builds(@app_name)
+    app_builds = self.app_builds(@app_name, @ios_dir, IOS_APP_TYPE)
 
     @most_recent_build_hash = most_recent_build_by_release(app_builds)
     @app_releases = VersionSorter.rsort(@most_recent_build_hash.keys)
@@ -43,7 +37,7 @@ class IosAppsController < ApplicationController
     @app_name = params[:app_name]
     @app_release = params[:app_release]
 
-    @app_builds = self.app_builds(@app_name).select do |app_build|
+    @app_builds = self.app_builds(@app_name, @ios_dir, IOS_APP_TYPE).select do |app_build|
       app_build.release.eql?(@app_release)
     end
   end
@@ -58,7 +52,7 @@ class IosAppsController < ApplicationController
 
   def show_build
     expires_now
-    @app_build = AppBuild.new(@ios_dir, params[:app_name], params[:build_version])
+    @app_build = IosBuild.new(@ios_dir, params[:app_name], params[:build_version])
   end
 
   def show_build_manifest
@@ -72,7 +66,7 @@ class IosAppsController < ApplicationController
   end
 
   def gen_plist_hash(app_name, build_version)
-    app_build = AppBuild.new(@ios_dir, app_name, build_version)
+    app_build = IosBuild.new(@ios_dir, app_name, build_version)
     plist_hash = app_build.manifest_plist_hash
     replace_url_in_plist_hash APP_ASSET_INDEX, "#{public_url_for_build_directory(@app_name, build_version)}/#{@app_name}-#{build_version}.ipa", plist_hash
     replace_url_in_plist_hash ICON_ASSET_INDEX, "#{public_url_for_build_directory(@app_name, build_version)}/Icon.png", plist_hash
