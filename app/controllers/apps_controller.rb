@@ -24,7 +24,12 @@ class AppsController < ApplicationController
     app_type = app_dir == @ios_dir ? IOS_APP_TYPE : ANDROID_APP_TYPE
     subdirectories(app_dir).sort.select do |app_name|
       app_builds = self.app_builds(app_name,app_dir,app_type)
-      (app_builds.first && app_builds.first.supports_device?(@device_type)) || @device_type == :desktop
+
+      if app_type == IOS_APP_TYPE   # Only iOS has different apps for phone and tablets
+        (app_builds.first && app_builds.first.supports_device?(@device_type)) || @device_type == :desktop
+      end
+
+      app_builds
     end
   end
 
