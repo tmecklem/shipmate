@@ -1,0 +1,28 @@
+require 'shipmate/apk_parser'
+
+class AndroidAppsController < AppsController
+
+  def list_app_builds
+
+  end
+
+  def list_app_releases
+    @app_name = params[:app_name]
+    app_builds = self.app_builds(@app_name, @android_dir, ANDROID_APP_TYPE)
+
+    @most_recent_build_hash = most_recent_build_by_release(app_builds)
+    @app_releases = VersionSorter.rsort(@most_recent_build_hash.keys)
+  end
+
+  def show_build
+
+  end
+
+  def most_recent_build_by_release(app_builds)
+    most_recent_builds_hash = {}
+    app_builds.each do |app_build|
+      most_recent_builds_hash[app_build.release] ||= app_build
+    end
+    most_recent_builds_hash
+  end
+end

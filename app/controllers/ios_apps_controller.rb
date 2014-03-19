@@ -1,6 +1,6 @@
 require 'shipmate/ipa_parser'
 
-class IosAppsController < ApplicationController
+class IosAppsController < AppsController
 
   include AppListingModule
 
