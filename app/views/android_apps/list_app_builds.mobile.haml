@@ -1,0 +1,15 @@
+%div{:"data-role" => 'page'}
+  %div{:"data-role" => 'header', :"data-add-back-btn"=>'true'}
+    %h1=@app_release
+  %div{:"data-role" => 'content'}
+    - @app_builds.each do |app_build|
+      %p
+        %a.ui-btn.ui-btn-icon-right.ui-icon-carat-r{:"data-ajax" => "false", :href => "#{@base_build_directory}/#{app_build.app_name}/#{app_build.build_version}/#{app_build.app_name}-#{app_build.build_version}.apk"}=app_build.build_version
+  %div{:"data-role" => 'footer'}
+    %h2=link_to('Home',root_path, :class=>"ui-btn")
+
+
+
+
+
+
