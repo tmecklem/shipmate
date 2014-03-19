@@ -70,15 +70,6 @@ describe AndroidAppsController do
       get :list_app_builds, :app_name => 'Vanilla', :app_release => '1.2.0'
       expect(assigns[:app_name]).to eq 'Vanilla'
     end
-
-    #before(:each) do
-    #  FileUtils.mkdir_p(android_dir.join('Christmas Conspiracy','4.2.55'))
-    #  FileUtils.cp(Rails.root.join('spec','fixtures','ChristmasConspiracy.apk'), ios_dir.join('Christmas Conspiracy','4.2.55','Christmas Conspiracy-4.2.55.apk'))
-    #end
-    #
-    #after(:each) do
-    #  FileUtils.rm_rf(android_dir.join('Christmas Conspiracy'))
-    #end
   end
 
 end
