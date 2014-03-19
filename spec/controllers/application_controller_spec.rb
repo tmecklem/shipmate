@@ -34,6 +34,12 @@ describe ApplicationController do
       expect(assigns[:device_type]).to eq :desktop
     end
 
+    it 'assigns device_type to Android' do
+      request.env['HTTP_USER_AGENT'] = "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"
+      get :index
+      expect(assigns[:device_type]).to eq :android
+    end
+
   end
 
 end
