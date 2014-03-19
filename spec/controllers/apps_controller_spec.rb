@@ -13,7 +13,6 @@ describe AppsController do
     end
 
     it 'sets the android_dir property' do
-      FileUtils.rm_r(android_dir)
       apps_controller = AppsController.new
       expect(apps_controller.android_dir).to_not eq nil
     end

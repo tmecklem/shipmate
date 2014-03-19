@@ -7,7 +7,8 @@ class ApplicationController < ActionController::Base
 
   before_action do
     @device_type = :iphone if browser.iphone? or browser.ipod?
-    @device_type = :ipad if browser.ipad? 
+    @device_type = :ipad if browser.ipad?
+    @device_type = :android if browser.android?
     @device_type ||= :desktop
   end
 
