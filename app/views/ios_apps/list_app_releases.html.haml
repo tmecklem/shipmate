@@ -1,5 +1,5 @@
 %h3
-  = 'iOS ' + @app_name + ' Releases'
+  = 'Apps : iOS : ' + @app_name + " : Releases"
 
 %table.table.table-striped.table-condensed
   %thead
@@ -9,7 +9,9 @@
     - @app_releases.each do |app_release|
       %tr
         %td
-          = link_to app_release, list_ios_app_releases_path(app_release)
-          -#- if platform == 'ios'
-          -#- elsif platform == 'android'
-          -#  =link_to app_release, list_android_app_releases_path(app_release)
+          = link_to app_release, list_ios_app_builds_path(params['app_name'], app_release)
+        %td{:style => 'text-align:right;'}
+          - if @mobileprovision.nil?
+            = link_to 'Install mobileprovision certificate', '#', :class => 'btn btn-mini btn-primary'
+          - else
+            = link_to 'Download mobileprovision certificate', '#', :class => 'btn btn-mini'
