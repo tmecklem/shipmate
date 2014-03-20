@@ -1,14 +1,35 @@
+!!! XML
 !!!
 %html
-%head
-  %title
-    Shipmate - Apps Listing
+  %head
+    %title
+      Shipmate - Apps Listing
 
-  = stylesheet_link_tag    'mobile'
-  = javascript_include_tag 'application'
+    -#%meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0, width=device-width, initial-scale=1.0" }
+    %link{ :rel => "stylesheet", :type => "text/css", :href => "https://fonts.googleapis.com/css?family=Open+Sans" }
 
-  = csrf_meta_tags
-  %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
+    = stylesheet_link_tag    'application'
+    = javascript_include_tag 'application'
 
-  %body
-    = yield
+    = csrf_meta_tags
+
+    %body
+      #wrap
+        .container-fluid
+          .row-fluid
+            .span1
+            .span10
+              = render 'shared/header'
+            .span1
+
+        .container-fluid#content
+          .row-fluid
+            .span1
+            .span10
+              = yield
+            .span1
+
+        #push
+
+      = render 'shared/footer'
+
