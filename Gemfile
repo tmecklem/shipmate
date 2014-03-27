@@ -32,7 +32,6 @@ end
 
 gem 'haml-rails', '~> 0.5.3' 
 gem 'ipa', :git => 'git://github.com/sjmulder/ipa' #ipa and plist parsing support
-gem 'version_sorter', '~> 1.1.0' #gem to help sort version numbers (when dictionary sort fails)
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.14.2'

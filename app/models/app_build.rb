@@ -22,18 +22,8 @@ class AppBuild
     device_families.include? device
   end
 
-  def version_parts
-    self.build_version.split('.').map do |version_part|
-      if version_part.to_i.to_s == version_part
-        version_part.to_i.to_s.rjust(10,'0')
-      else
-        version_part
-      end
-    end
-  end
-
   def <=>(other)
-    self.version_parts <=> other.version_parts
+    self.build_version.to_version_string <=> other.build_version.to_version_string
   end
 
   def ==(other)
