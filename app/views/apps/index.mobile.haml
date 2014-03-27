@@ -1,11 +1,11 @@
 %div{:"data-role" => 'page'}
   %div{:"data-role" => 'content'}
-    - if @ios_app_names.size > 0
+    - if !@ios_app_names.nil? && @ios_app_names.size > 0
       %div{:"data-role"=>"collapsible", :"data-collapsed"=>"false", :"data-theme"=>"b", :"data-inset"=>"false"}
         %h2="iOS Apps"
         - @ios_app_names.each do |app_name|
           %p=link_to(app_name, list_ios_app_releases_path(app_name), :class => "ui-btn ui-btn-icon-right ui-icon-carat-r")
-    - if @android_app_names.size > 0
+    - if !@android_app_names.nil? && @android_app_names.size > 0
       %div{:"data-role"=>"collapsible", :"data-collapsed"=>"false", :"data-theme"=>"b", :"data-inset"=>"false"}
         %h2="Android Apps"
         - @android_app_names.each do |app_name|
