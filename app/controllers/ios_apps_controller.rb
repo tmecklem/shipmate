@@ -20,7 +20,7 @@ class IosAppsController < AppsController
     app_builds = self.app_builds(@app_name, @ios_dir, IOS_APP_TYPE)
 
     @most_recent_build_hash = most_recent_build_by_release(app_builds)
-    @app_releases = VersionSorter.rsort(@most_recent_build_hash.keys)
+    @app_releases = @most_recent_build_hash.keys.sort{|x,y| y.to_version_string<=>x.to_version_string }
     @mobileprovision = mobileprovision_file_url(@app_name)
   end
 

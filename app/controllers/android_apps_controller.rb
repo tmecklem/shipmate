@@ -19,7 +19,7 @@ class AndroidAppsController < AppsController
 
     @most_recent_build_hash = most_recent_build_by_release(app_builds)
     @base_build_directory = public_url_for_build_directory
-    @app_releases = VersionSorter.rsort(@most_recent_build_hash.keys)
+    @app_releases = @most_recent_build_hash.keys.sort{|x,y| y.to_version_string<=>x.to_version_string }
   end
 
   def public_url_for_build_directory

@@ -7,9 +7,9 @@
 
 %h3
   Apps : iOS
-= render 'app_table', :app_names => @ios_app_names, :platform => 'ios'
+= render 'app_table', :app_names => @ios_app_names, :platform => 'ios' if !@ios_app_names.nil?
 
 %h3
   Apps : Android
-= render 'app_table', :app_names => @android_app_names, :platform => 'android'
+= render 'app_table', :app_names => @android_app_names, :platform => 'android' if !@android_app_names.nil?
 

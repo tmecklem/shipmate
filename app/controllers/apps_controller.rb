@@ -16,8 +16,8 @@ class AppsController < ApplicationController
   end
 
   def index
-    @ios_app_names = app_names(@ios_dir)
-    @android_app_names = app_names(@android_dir)
+    @ios_app_names = app_names(@ios_dir) if [:iphone,:ipad,:desktop].include?(@device_type)
+    @android_app_names = app_names(@android_dir) if [:android,:desktop].include?(@device_type)
   end
 
   def app_names(app_dir)

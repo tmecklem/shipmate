@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def prepare_for_mobile_views
     if browser.iphone? or browser.ipod? or browser.ipad? or browser.android?
-      request.format = :mobile
+      request.format = :mobile unless request.format == :plist
     end
   end
 

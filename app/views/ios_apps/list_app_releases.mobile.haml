@@ -2,8 +2,8 @@
   %div{:"data-role" => 'header', :"data-add-back-btn"=>'true'}
     %h1=@app_name
   %div{:"data-role" => 'content'}
-    - @app_releases.each do |app_release|
-      %div{:"data-role"=>"collapsible"}
+    - @app_releases.each_with_index do |app_release, index|
+      %div{:"data-role"=>"collapsible", :"data-collapsed"=>(index!=0).to_s}
         %h2="Release #{app_release}"
         %a.ui-btn.ui-btn-b.ui-btn-icon-right.ui-icon-carat-r{:href => "itms-services://?action=download-manifest&url=#{CGI.escape(show_ios_build_manifest_url(@app_name, @most_recent_build_hash[app_release].build_version, :format => :plist))}"}="Install #{@most_recent_build_hash[app_release].build_version}"
         =link_to("More Builds", list_ios_app_builds_path(@app_name, app_release), :class => "ui-btn ui-mini ui-btn-icon-right ui-icon-carat-r")
