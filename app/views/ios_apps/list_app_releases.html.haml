@@ -1,17 +1,31 @@
 %h3
   = 'Apps : iOS : ' + @app_name + " : Releases"
 
-%table.table.table-striped.table-condensed
-  %thead
-    %th
-      Release Version
-  %tbody
-    - @app_releases.each do |app_release|
-      %tr
-        %td
-          = link_to app_release, list_ios_app_builds_path(params['app_name'], app_release)
-        %td{:style => 'text-align:right;'}
-          - if @mobileprovision.nil?
-            = link_to 'Install mobileprovision certificate', '#', :class => 'btn btn-mini btn-primary'
-          - else
-            = link_to 'Download mobileprovision certificate', '#', :class => 'btn btn-mini'
+.container-fluid
+  .row-fluid
+    .span8{:style => 'border-right: 1px solid silver; padding:0px 10px 0px 0px;'}
+      %table.table.table-striped.table-condensed
+        %thead
+          %th
+            Release Version
+        %tbody
+          - @app_releases.each do |app_release|
+            %tr
+              %td
+                = link_to app_release, list_ios_app_builds_path(params['app_name'], app_release)
+
+    .span4
+      %div{:style => 'border:0px solid silver; padding:5px;'}
+        %h4 Mobile Provisioning File
+
+        - if @mobileprovision.nil?
+          = form_tag upload_mobileprovision_path, :method => :put, :app_name => params['app_name'], :multipart => true do
+            = file_field_tag 'upload_mobileprovision[file]'
+            = submit_tag 'Upload', :class => 'btn btn-primary'
+        - else
+          -#%i.icon-file
+          = @mobileprovision_file_name
+          %br
+          %br
+          = link_to 'Download', @mobileprovision, :class => 'btn'
+          = link_to 'Delete', '#', :class => 'btn btn-danger'

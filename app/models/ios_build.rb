@@ -3,6 +3,10 @@ require 'app_build'
 
 class IosBuild < AppBuild
 
+  extend CarrierWave::Mount
+  attr_accessor :mobileprovision
+  mount_uploader :mobileprovision, MobileprovisionUploader
+
   def ipa_file_path
     build_file_root_path.join("#{app_name}-#{build_version}.ipa")
   end
