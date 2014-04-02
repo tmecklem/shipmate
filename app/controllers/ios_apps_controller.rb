@@ -95,6 +95,8 @@ class IosAppsController < AppsController
   def upload_mobileprovision
     @mobile_provisioning_file = params[:upload_mobileprovision][:file]
 
+    delete_mobileprovision_files_for_app(params[:app_name])
+
     File.open("public/apps/ios/#{params[:app_name]}/#{@mobile_provisioning_file.original_filename}", 'wb') do |f|
       if f.write @mobile_provisioning_file.read
         flash[:notice] = "Successfully saved the mobileprovision file for #{params[:app_name]}"
@@ -105,6 +107,15 @@ class IosAppsController < AppsController
 
     # TODO why isn't this working?
     redirect_to list_ios_app_releases_path
+  end
+
+  private
+
+  def delete_mobileprovision_files_for_app(app_name)
+    mobileprovision_files = Dir.glob(@ios_dir.join(app_name,"*.mobileprovision"))
+    mobileprovision_files.each do |file|
+      File.delete(file)
+    end
   end
 
 end
