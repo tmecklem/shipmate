@@ -55,6 +55,9 @@ gem "apktools", '~> 0.6.0'
 # Required to parse docs
 gem "nokogiri", '~> 1.6.1'
 
+# For uploading files
+gem 'carrierwave', '0.10.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

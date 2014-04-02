@@ -22,12 +22,23 @@ class IosAppsController < AppsController
     @most_recent_build_hash = most_recent_build_by_release(app_builds)
     @app_releases = @most_recent_build_hash.keys.sort{|x,y| y.to_version_string<=>x.to_version_string }
     @mobileprovision = mobileprovision_file_url(@app_name)
+    @mobileprovision_file_name = mobileprovision_file_name(@app_name)
+
   end
 
   def mobileprovision_file_url(app_name)
     mobileprovision_file = Dir.glob(@ios_dir.join(app_name,"*.mobileprovision")).first
     if mobileprovision_file
       "#{request.base_url}/apps/ios/#{app_name}/#{mobileprovision_file.split('/').last}"
+    else
+      nil
+    end
+  end
+
+  def mobileprovision_file_name(app_name)
+    mobileprovision_file = Dir.glob(@ios_dir.join(app_name,"*.mobileprovision")).first
+    if mobileprovision_file
+      "#{mobileprovision_file.split('/').last}"
     else
       nil
     end
@@ -79,6 +90,21 @@ class IosAppsController < AppsController
 
   def replace_url_in_plist_hash(asset_type, url, plist_hash)
     plist_hash["items"][0]["assets"][asset_type]['url'] = URI.escape(url)
+  end
+
+  def upload_mobileprovision
+    @mobile_provisioning_file = params[:upload_mobileprovision][:file]
+
+    File.open("public/apps/ios/#{params[:app_name]}/#{@mobile_provisioning_file.original_filename}", 'wb') do |f|
+      if f.write @mobile_provisioning_file.read
+        flash[:notice] = "Successfully saved the mobileprovision file for #{params[:app_name]}"
+      else
+        flash[:error] = "There was a problem saving the mobileprovision file for #{params[:app_name]}"
+      end
+    end
+
+    # TODO why isn't this working?
+    redirect_to list_ios_app_releases_path
   end
 
 end

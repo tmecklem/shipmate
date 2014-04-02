@@ -7,6 +7,8 @@ Shipmate::Application.routes.draw do
   get "ios_apps/:app_name/:build_version/manifest" => 'ios_apps#show_build_manifest', :constraints => { :build_version => /[^\/]+/ }, as: :show_ios_build_manifest
   get "ios_apps/:app_name/:build_version/show" => 'ios_apps#show_build', :constraints => { :build_version => /[^\/]+/ }, as: :show_ios_build
 
+  put 'ios_apps/:app_name/upload_mobileprovision', :to => 'ios_apps#upload_mobileprovision', as: :upload_mobileprovision
+
   get "android_apps/:app_name" => 'android_apps#list_app_releases', as: :list_android_app_releases
   get "android_apps/:app_name/:app_release" => 'android_apps#list_app_builds', :constraints => { :app_release => /[^\/]+/ }, as: :list_android_app_builds
 
