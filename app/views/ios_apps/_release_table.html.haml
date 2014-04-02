@@ -1,0 +1,12 @@
+%table.table.table-striped.table-condensed
+  %thead
+    %th
+      Release Version
+  %tbody
+    - app_releases.each do |app_release|
+      %tr
+        %td
+          = link_to app_release, list_ios_app_releases_path(app_release)
+          -#- if platform == 'ios'
+          -#- elsif platform == 'android'
+          -#  =link_to app_release, list_android_app_releases_path(app_release)

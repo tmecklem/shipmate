@@ -1,0 +1,13 @@
+%h3
+  = 'Apps : iOS : ' + @app_name + " : Releases : Builds"
+
+
+%table.table.table-striped.table-condensed
+  %thead
+    %th
+      Builds
+  %tbody
+    - @app_builds.each do |build|
+      %tr
+        %td
+          = link_to build.build_version, "#"

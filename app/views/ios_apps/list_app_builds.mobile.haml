@@ -1,0 +1,16 @@
+%div{:"data-role" => 'page'}
+  %div{:"data-role" => 'header', :"data-add-back-btn"=>'true'}
+    %h1=@app_release
+  %div{:"data-role" => 'content'}
+    - @app_builds.each do |app_build|
+      %p
+        %a.ui-btn.ui-btn-icon-right.ui-icon-carat-r{:href => "itms-services://?action=download-manifest&url=#{CGI.escape(show_ios_build_manifest_url(@app_name, app_build.build_version, :format => :plist))}"}=app_build.build_version
+  %div{:"data-role" => 'footer'}
+    %h2=link_to('Home',root_path, :class=>"ui-btn")
+
+
+
+
+
+
+    

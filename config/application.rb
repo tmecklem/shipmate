@@ -27,5 +27,7 @@ module Shipmate
 
     config.apps_dir = Rails.root.join('public','apps')
     config.import_dir = Rails.root.join('public','import')
+    config.ios_dir = config.apps_dir.join('ios')
+    config.android_dir = config.apps_dir.join('android')
   end
 end

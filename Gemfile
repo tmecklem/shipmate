@@ -16,11 +16,11 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
-gem 'jquery_mobile_rails' #mobile html5 framework
+gem 'jquery-rails', '~> 3.1.0'
+gem 'jquery_mobile_rails', '~> 1.4.1' #mobile html5 framework
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+gem 'turbolinks', '~>2.2.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
@@ -32,13 +32,13 @@ end
 
 gem 'haml-rails', '~> 0.5.3' 
 gem 'ipa', :git => 'git://github.com/sjmulder/ipa' #ipa and plist parsing support
-gem 'version_sorter', '~> 1.1.0' #gem to help sort version numbers (when dictionary sort fails)
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.14.1'
-  gem 'guard-rspec'
-  gem 'guard-rails'
-  gem 'terminal-notifier-guard'
+  gem 'rspec-rails', '~> 2.14.2'
+  gem 'guard-rspec', '~> 4.2.8'
+  gem 'guard-rails', '~> 0.5.0'
+  gem 'terminal-notifier-guard', '~> 1.5.3', require: false
+  gem 'debugger', '~> 1.6.6'
 end
 
 group :development do
@@ -49,6 +49,15 @@ end
 gem 'whenever', '~> 0.9.0' #cron
 gem 'browser', '~> 0.4.0' #device family detection
 
+# Required to parse apk files
+gem "apktools", '~> 0.6.0'
+
+# Required to parse docs
+gem "nokogiri", '~> 1.6.1'
+
+# For uploading files
+gem 'carrierwave', '0.10.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
@@ -57,6 +66,3 @@ gem 'browser', '~> 0.4.0' #device family detection
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]

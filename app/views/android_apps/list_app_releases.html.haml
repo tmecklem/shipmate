@@ -1,0 +1,12 @@
+%div{:"data-role" => 'page'}
+  %div{:"data-role" => 'header', :"data-add-back-btn"=>'true'}
+    %h1=@app_name
+  %div{:"data-role" => 'content'}
+    - @app_releases.each do |app_release|
+      %div{:"data-role"=>"collapsible"}
+        %h2="Release #{app_release}"
+        %a.ui-btn.ui-btn-b.ui-btn-icon-right.ui-icon-carat-r{:"data-ajax" => "false", :href => "#{@base_build_directory}/#{@app_name}/#{@most_recent_build_hash[app_release].build_version}/#{@app_name}-#{@most_recent_build_hash[app_release].build_version}.apk"}="Install #{@most_recent_build_hash[app_release].build_version}"
+        =link_to("More Builds", list_android_app_builds_path(@app_name, app_release), :class => "ui-btn ui-mini ui-btn-icon-right ui-icon-carat-r")
+      %p
+  %div{:"data-role" => 'footer'}
+    %h2=link_to('Home',root_path, :class=>"ui-btn")
