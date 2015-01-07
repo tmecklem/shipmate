@@ -18,6 +18,13 @@ Differences from HockeyKit
 Getting Started
 ===============
 
+One click heroku deploy
+-----------------------
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+Manual setup
+------------
+
 * Check out the code from github
 * run bundle install
 * set up the import cron job: bundle exec whenever -w
