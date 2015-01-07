@@ -14,3 +14,17 @@ Differences from HockeyKit
 * It provides more structured mobile device navigation based on app->release->build.
 * It provides the means to install older build versions of the same release with minimal little hassle.
 * It's not PHP.
+
+Getting Started
+===============
+
+* Check out the code from github
+* run bundle install
+* set up the import cron job: bundle exec whenever -w
+* run rails s
+* add your apk or ipa files to public/import/
+
+How does Shipmate work?
+=======================
+
+Shipmate analyzes iOS ipa and Android apk files dropped into public/import by reading the application structure within the files. It uses the internal structure to build up a corresponding filesystem. When you load the shipmate webapp in a mobile browser, it identifies your platform and gives sideload access to imported apps.
