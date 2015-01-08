@@ -1,16 +1,15 @@
 {
   "name": "Shipmate",
   "description": "Shipmate is a tool to help deploy mobile applications for testing prior to release to a public app store",
-  "website": "https://github.com/tmecklem/shipmate",
-  "env": {
-    "RAILS_ENV": "production",
-    "COOKIE_SECRET": {
-            "description": "This gets generated",
-            "generator": "secret"
-    },
-    "SETUP_BY": {
-            "description": "Who initiated this setup",
-            "value": ""
-    }
-  }
+  "keywords": [
+    "iOS",
+    "Android",
+    "apk",
+    "ipa",
+    "test",
+    "ship"
+  ],
+  "repository": "https://github.com/tmecklem/shipmate",
+  "addons": [],
+  "env": {}
 }
